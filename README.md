@@ -82,3 +82,7 @@ Read [the architecture briefing](docs/ARCHITECTURE_BRIEFING.md) before changing 
 This repository owns frontend presentation, graph transformation, sample fixtures, and its local server. [feyer-search-lab](https://github.com/timbtz/feyer-search-lab) owns coordinator logic, scientific code, source provenance, workers, and the evaluator. The initial extraction also exists at `lab/dashboard` there; these are copies, not an automatic synchronization mechanism. Develop frontend changes here and deliberately copy or consume a reviewed revision when updating the embedded dashboard.
 
 Project code retains the originating repository's MIT license. Porsche assets retain their separate [license](PDS-LICENSE.md) and [third-party notice](PDS-OSS-NOTICE). Feyer branding is used; no Porsche logo or wordmark is included.
+
+### Inspect each evaluation
+
+In Search progression, choose a research path and click **Expand decisions & feedback** on a run. Open individual timing rows for compilation and differentiation subphases. Every recorded evaluation has its own card. Use the scientific/execution graph and optional control-feedback overlay to follow source-backed ancestry and feedback consumption. Missing records are labelled; the browser does not manufacture decisions or private prompts.

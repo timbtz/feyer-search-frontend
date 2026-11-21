@@ -82,7 +82,7 @@ Both screen and full operate on the fixed 101-frequency, 193-variable, double-pr
 
 Full evaluation runs the unchanged official benchmark plus the separate strict comparison. The two verdicts are distinct. A strict mismatch can require numerical review even when official checks pass. Infrastructure/transport failures must not be presented as scientific rejection.
 
-The recorded evaluation policy is serial execution on one logical CPU, with CPU 2 affinity and a 32,000,000,000-byte sampled process-group RSS watchdog. This is not a kernel memory cap. GPU VRAM is separate from system RAM and is not used by these CPU benchmark runs. Keep the fixed benchmark environment isolated from controller/SMAC dependencies. Instance size, CPU identity, software versions, resource policy, and deployment paths must be rechecked after migration.
+The initial recorded evaluation policy used serial execution on CPU 2 with a 32,000,000,000-byte sampled process-group RSS watchdog. Later capacity work introduced a second independently observed lane; consult the recorded comparison regime and lane policy rather than assuming perpetual single-lane operation. This is not a kernel memory cap. GPU VRAM is separate from system RAM and is not used by these CPU benchmark runs. Keep the fixed benchmark environment isolated from controller/SMAC dependencies. Instance size, CPU identity, software versions, resource policy, and deployment paths must be rechecked after migration.
 
 Rank complete first-run time, preserving compilation, setup, forward, sensitivity, gradient, transfer, and memory measurements. Compare matching cohorts; keep sample counts and variability. A valid result can be slower. A single fast run is not repeat-confirmed improvement; exact Pareto membership and a noise-qualified gain are different labels.
 
@@ -121,3 +121,7 @@ These references pin implementation/documentation evidence. A source revision is
 - [SMAC integration](https://github.com/timbtz/feyer-search-lab/blob/56532953f7cad39d05f82c8ea4409608f907dfd4/.wiki/smac-search.md): optional isolated helper, frozen legal configurations, source/version checks, and training evidence rules.
 
 Update this briefing with the source revision and deployment date when these arrangements change. Preserve uncertainty rather than turning an old host observation into current status.
+
+## Evaluation cards and feedback evidence
+
+The current UI expands each exact run into five timing objectives and 14 phases, recorded changes, declared targets, decisions, checkpoints and feedback. Scientific ancestry and cyclic orchestration feedback have separate graph layers. Input digests attest to captured private artifacts, not public transcript availability. Missing historical decisions remain unknown; source-backed records can be imported later without changing measured results.
