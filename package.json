@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "@porsche-design-system/components-js": "4.10.1"
+  },
+  "name": "feyer-search-frontend",
+  "private": true,
+  "scripts": {
+    "build:pds": "node build-pds.cjs",
+    "check": "node --check app.js",
+    "test": "node --test tests/*.test.cjs",
+    "start": "python3 serve.py --demo",
+    "test:server": "python3 -m unittest discover -s tests -p \"test_*.py\""
+  }
+}

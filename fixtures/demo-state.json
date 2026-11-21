@@ -1,0 +1,279 @@
+{
+  "demo": true,
+  "generated_at": 1795262400,
+  "read_only": true,
+  "refresh_seconds": 5,
+  "storage": {
+    "free_bytes": 10000000000
+  },
+  "queue": {
+    "enabled": false,
+    "stale": true,
+    "jobs": []
+  },
+  "alerts": [],
+  "infrastructure": [],
+  "jobs": [],
+  "historical": {
+    "candidates": []
+  },
+  "workers": [
+    {
+      "id": "demo-research",
+      "provider": "example",
+      "model": "Demo large research model",
+      "direction": "Investigate alternate solver topology",
+      "status": "complete",
+      "host": "Example research host",
+      "stale": false
+    }
+  ],
+  "campaigns": [
+    {
+      "id": "example-search",
+      "selector": "smac",
+      "status": "stopped",
+      "source_updated_at": 1795262400,
+      "campaign": {
+        "spec": {}
+      },
+      "budget": {
+        "max_evaluations": 10
+      },
+      "usage": {
+        "evaluations": 4
+      },
+      "rounds": [
+        {
+          "round_id": "round-demo",
+          "closed": false,
+          "spec": {
+            "materializer_version": "demo-reviewed-component-topology",
+            "selector": "smac",
+            "dimensions": {
+              "checkpoint": [
+                true,
+                false
+              ],
+              "map_batch_size": [
+                null,
+                1,
+                2,
+                4
+              ]
+            },
+            "lanes": {
+              "batch": {
+                "owner": "demo-coordinator",
+                "dimensions": [
+                  "checkpoint",
+                  "map_batch_size"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "candidates": [
+        {
+          "candidate_id": "a-reference",
+          "commit_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "kind": "seed",
+          "parents": [],
+          "round_id": "round-demo",
+          "lane_id": "batch",
+          "parameters": {
+            "checkpoint": true,
+            "map_batch_size": null
+          },
+          "valid": true,
+          "status": "valid",
+          "full_run_count": 3,
+          "cohort_digest": "demo-cohort",
+          "metrics": {
+            "total": 40,
+            "compilation": 18.0,
+            "setup": 1,
+            "forward": 16.0,
+            "gradient": 4.0,
+            "sensitivity": 0.01,
+            "transfer": 0.01,
+            "runtime": 20.0,
+            "peak_rss_bytes": 8000000000
+          },
+          "metric_ranges": {
+            "total": 0.4
+          },
+          "created_at": 1795262400,
+          "owner": "demo-coordinator",
+          "provenance": {
+            "hypothesis": "Synthetic example only; these timings are not experimental findings."
+          }
+        },
+        {
+          "candidate_id": "b-batch",
+          "commit_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "kind": "mutate",
+          "parents": [
+            "a-reference"
+          ],
+          "round_id": "round-demo",
+          "lane_id": "batch",
+          "parameters": {
+            "checkpoint": true,
+            "map_batch_size": 2
+          },
+          "valid": true,
+          "status": "valid",
+          "full_run_count": 3,
+          "cohort_digest": "demo-cohort",
+          "metrics": {
+            "total": 34,
+            "compilation": 15.3,
+            "setup": 1,
+            "forward": 13.600000000000001,
+            "gradient": 3.4000000000000004,
+            "sensitivity": 0.01,
+            "transfer": 0.01,
+            "runtime": 17.0,
+            "peak_rss_bytes": 8000000000
+          },
+          "metric_ranges": {
+            "total": 0.4
+          },
+          "created_at": 1795262400,
+          "owner": "demo-coordinator",
+          "provenance": {
+            "hypothesis": "Synthetic example only; these timings are not experimental findings.",
+            "model_call_id": "demo-call",
+            "model": "Demo bounded proposer"
+          }
+        },
+        {
+          "candidate_id": "c-checkpoint",
+          "commit_sha": "cccccccccccccccccccccccccccccccccccccccc",
+          "kind": "mutate",
+          "parents": [
+            "a-reference"
+          ],
+          "round_id": "round-demo",
+          "lane_id": "batch",
+          "parameters": {
+            "checkpoint": true,
+            "map_batch_size": 1
+          },
+          "valid": false,
+          "status": "invalid",
+          "full_run_count": 0,
+          "cohort_digest": "demo-cohort",
+          "metrics": {},
+          "metric_ranges": {
+            "total": 0.4
+          },
+          "created_at": 1795262400,
+          "owner": "demo-coordinator",
+          "provenance": {
+            "hypothesis": "Synthetic example only; these timings are not experimental findings."
+          }
+        },
+        {
+          "candidate_id": "d-combination",
+          "commit_sha": "dddddddddddddddddddddddddddddddddddddddd",
+          "kind": "combine",
+          "parents": [
+            "a-reference",
+            "b-batch"
+          ],
+          "round_id": "round-demo",
+          "lane_id": "batch",
+          "parameters": {
+            "checkpoint": true,
+            "map_batch_size": 2
+          },
+          "valid": false,
+          "status": "screened",
+          "full_run_count": 0,
+          "cohort_digest": "demo-cohort",
+          "metrics": {},
+          "metric_ranges": {},
+          "created_at": 1795262400,
+          "owner": "demo-coordinator",
+          "provenance": {
+            "hypothesis": "Synthetic example only; these timings are not experimental findings."
+          }
+        }
+      ],
+      "evaluations": [
+        {
+          "request_id": "demo-1",
+          "candidate_id": "a-reference",
+          "profile": "full",
+          "attempt": 1,
+          "status": "valid",
+          "job_id": "11111111111111111111111111111111"
+        },
+        {
+          "request_id": "demo-2",
+          "candidate_id": "b-batch",
+          "profile": "full",
+          "attempt": 1,
+          "status": "valid",
+          "job_id": "22222222222222222222222222222222"
+        },
+        {
+          "request_id": "demo-3",
+          "candidate_id": "c-checkpoint",
+          "profile": "screen",
+          "attempt": 1,
+          "status": "invalid",
+          "job_id": "33333333333333333333333333333333"
+        },
+        {
+          "request_id": "demo-4",
+          "candidate_id": "d-combination",
+          "profile": "screen",
+          "attempt": 1,
+          "status": "screened",
+          "job_id": "44444444444444444444444444444444"
+        }
+      ],
+      "evidence": [],
+      "lanes": [],
+      "events": [],
+      "decisions": [],
+      "model_calls": [
+        {
+          "call_id": "demo-call",
+          "actor": "demo-selector",
+          "metadata": {
+            "model": "Demo bounded proposer"
+          }
+        }
+      ],
+      "model_outcomes": [
+        {
+          "call_id": "demo-call",
+          "metadata": {
+            "status": "completed"
+          }
+        }
+      ],
+      "guidance": [
+        {
+          "guidance_id": "demo-guidance",
+          "actor": "demo-research",
+          "payload": {
+            "actual_model": "Demo large research model",
+            "parents": [
+              "a-reference"
+            ],
+            "hypothesis": "Explore a different factorization before admitting a new search space. Synthetic proposal, not tested.",
+            "proposed_operator": {
+              "id": "example-factorization-topology"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
