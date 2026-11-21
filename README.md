@@ -90,3 +90,7 @@ In Search progression, choose a research path and click **Expand decisions & fee
 The default **Topology map** shows compact candidate nodes and declared parent arrows. Click a node label for the side inspector, or expand its profiler feedback and decisions in place. Use **Collapse all** to restore the overview. Topology labels select a focus directly; there is no branch dropdown. Repeats stay inside their exact candidate node, and Run cards remains available as a detailed alternate view.
 
 Each measured candidate is followed by a visible evaluator box containing every exported exact run, official/strict verdicts and total time. Explicit stopping records remain visible. The lowest recorded full observation is separate from campaign-scoped summaries and is not a pooled or repeat-confirmed winner.
+
+### Horizontal session overview
+
+The default map flows left to right and groups work by recorded agent session. Expand a session to inspect candidate revisions, then each screen/full job. Same-agent sessions remain separate; ambiguous branch ownership is left unassigned. Blue rectangles are numerical implementation menus, orange circles are recorded decisions. Coverage (for example 9/9) and controller stopping reason (for example budget exhaustion) stay separate. Turn off **Group agent sessions** for the individual candidate graph. Group-level ancestry links do not establish model-feedback delivery.

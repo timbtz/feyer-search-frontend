@@ -68,3 +68,9 @@ Optional `search_lineage` (`feyer-search-lineage-v1`) supplies nodes, scientific
 ## Compact topology map
 
 The default map groups exact candidate revisions by explicit topology metadata, admitted campaign `space_version`, or declared phase focus. Phase focus is labelled separately from a topology. Unknown topology remains unclassified; worker names and free-text hypotheses never create phase or ancestry edges. Explicit campaign candidate IDs resolve inside their campaign. Proposed research with no candidate remains an unmeasured assignment. Repeat job receipts are expandable within the candidate node; the compact metric is the latest recorded job, not a pooled winner.
+
+## Session process overview
+
+Session keys combine worker identity and exact `session_id`; missing IDs remain explicitly uncaptured. A shared branch with multiple sessions requires an exact run session ID before assigning results. Candidates and repeated evaluator jobs are separate nested objects. Explicit campaign executor records can render a coverage-only sweep when its full campaign export is unavailable. Such records do not create missing results or imply a live controller.
+
+Process links project declared candidate ancestry and explicit decision inputs/outputs. Collapsing processes can produce reciprocal links; placement uses an acyclic subset but preserves those links in the display. Aggregate links never assert that an independent agent received another session's prompt or feedback. Decision labels preserve status, executor stop status, stopping reason, and frozen-menu coverage separately.
