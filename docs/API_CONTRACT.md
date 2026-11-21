@@ -64,3 +64,7 @@ Green/red deltas require explicit scientific parents and matching instance, elig
 `recorded_feedback` joins exact job, SHA and profile. Cards expose the recorded hypothesis, change summary, declared phase targets, scientific inputs, downstream candidates, selection parameters, validation errors and checkpoint artifacts. Missing decisions or input receipts stay explicitly unavailable. Current-turn private input digests do not imply a captured next prompt or provide public downloads.
 
 Optional `search_lineage` (`feyer-search-lineage-v1`) supplies nodes, scientific `edges`, separate `control_edges`, records, issues and limits. The scientific/execution view lays out scientific edges; the control-feedback toggle overlays separately styled links without making feedback cycles scientific ancestry. Producer research records are the authority for target phases, stopping reasons, combinations and consumed-feedback receipts. Exhausted menus are not local-optimum claims.
+
+## Compact topology map
+
+The default map groups exact candidate revisions by explicit topology metadata, admitted campaign `space_version`, or declared phase focus. Phase focus is labelled separately from a topology. Unknown topology remains unclassified; worker names and free-text hypotheses never create phase or ancestry edges. Explicit campaign candidate IDs resolve inside their campaign. Proposed research with no candidate remains an unmeasured assignment. Repeat job receipts are expandable within the candidate node; the compact metric is the latest recorded job, not a pooled winner.

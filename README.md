@@ -86,3 +86,5 @@ Project code retains the originating repository's MIT license. Porsche assets re
 ### Inspect each evaluation
 
 In Search progression, choose a research path and click **Expand decisions & feedback** on a run. Open individual timing rows for compilation and differentiation subphases. Every recorded evaluation has its own card. Use the scientific/execution graph and optional control-feedback overlay to follow source-backed ancestry and feedback consumption. Missing records are labelled; the browser does not manufacture decisions or private prompts.
+
+The default **Topology map** shows compact candidate nodes and declared parent arrows. Click a node label for the side inspector, or expand its profiler feedback and decisions in place. Use **Collapse all** to restore the overview. Topology labels select a focus directly; there is no branch dropdown. Repeats stay inside their exact candidate node, and Run cards remains available as a detailed alternate view.
