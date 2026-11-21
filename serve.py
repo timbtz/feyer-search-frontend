@@ -1,6 +1,7 @@
 """Local read-only frontend server. Requires Python 3.9+ and no packages."""
 import argparse
 import json
+import time
 from functools import partial
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -18,7 +19,18 @@ CSP = ("default-src 'self'; connect-src 'self' https://cdn.ui.porsche.com; "
        "object-src 'none'; frame-ancestors 'none'")
 
 
-def state_body(api_url=None, snapshot=None):
+def state_body(api_url=None, snapshot=None, team_snapshot=None):
+    if team_snapshot:
+        path = Path(team_snapshot)
+        with path.open('rb') as stream:
+            raw = stream.read(LIMIT + 1)
+        if len(raw) > LIMIT:
+            raise ValueError('Team snapshot exceeds the size limit')
+        ledger = json.loads(raw)
+        if not isinstance(ledger, dict) or ledger.get('schema') != 'feyer-team-search-v1' or not isinstance(ledger.get('tasks'), dict) or not isinstance(ledger.get('observations'), dict):
+            raise ValueError('Unsupported team snapshot')
+        observed = path.stat().st_mtime
+        return json.dumps({'campaigns': [], 'snapshot': True, 'generated_at': observed, 'team_search': ledger, 'team_search_source': {'available': True, 'mode': 'local_snapshot', 'observed_at': observed, 'stale': time.time()-observed > 90, 'source': 'Local team ledger export', 'error': None}}, allow_nan=False).encode()
     if api_url:
         with urlopen(api_url.rstrip('/') + '/api/state', timeout=10) as response:
             body = response.read(LIMIT + 1)
@@ -39,8 +51,8 @@ def state_body(api_url=None, snapshot=None):
 
 
 class Handler(BaseHTTPRequestHandler):
-    def __init__(self, *args, api_url=None, snapshot=None, **kwargs):
-        self.api_url, self.snapshot = api_url, snapshot
+    def __init__(self, *args, api_url=None, snapshot=None, team_snapshot=None, **kwargs):
+        self.api_url, self.snapshot, self.team_snapshot = api_url, snapshot, team_snapshot
         super().__init__(*args, **kwargs)
 
     def do_GET(self):
@@ -50,7 +62,7 @@ class Handler(BaseHTTPRequestHandler):
         path = urlsplit(self.path).path
         if path == '/api/state':
             try:
-                body = state_body(self.api_url, self.snapshot)
+                body = state_body(self.api_url, self.snapshot, self.team_snapshot)
             except (OSError, ValueError, HTTPError, URLError):
                 self.send_error(503, 'Search evidence unavailable')
                 return
@@ -81,16 +93,17 @@ def main():
     modes.add_argument('--demo', action='store_true', help='Use explicitly synthetic sample evidence')
     modes.add_argument('--api-url', help='Origin of an existing read-only observatory, e.g. http://127.0.0.1:8765')
     modes.add_argument('--snapshot', type=Path, help='Local sanitized /api/state JSON export (keep out of Git)')
+    modes.add_argument('--team-snapshot', type=Path, help='Local sanitized feyer-team-search-v1 ledger export')
     parser.add_argument('--port', type=int, default=8770)
     args = parser.parse_args()
     if args.api_url:
         url = urlsplit(args.api_url)
         if url.scheme not in ('http', 'https') or not url.hostname or url.username or url.password or url.query or url.fragment or url.path not in ('', '/'):
             parser.error('--api-url must be an HTTP(S) origin without credentials or a path')
-    handler = partial(Handler, api_url=args.api_url, snapshot=args.snapshot)
+    handler = partial(Handler, api_url=args.api_url, snapshot=args.snapshot, team_snapshot=args.team_snapshot)
     server = ThreadingHTTPServer(('127.0.0.1', args.port), handler)
     server.daemon_threads = True
-    mode = 'synthetic demo' if args.demo else 'local snapshot' if args.snapshot else 'read-only API'
+    mode = 'synthetic demo' if args.demo else 'local snapshot' if args.snapshot or args.team_snapshot else 'read-only API'
     print(f'Feyer search frontend: http://localhost:{server.server_port} ({mode})', flush=True)
     try:
         server.serve_forever()

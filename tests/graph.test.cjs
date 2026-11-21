@@ -41,3 +41,25 @@ test('automatic layout keeps nodes apart and every connection moves forward',()=
 test('empty evidence has no invented workers, candidates or results',()=>{
  const g=build({});assert.equal(g.nodes.length,1);assert.equal(g.edges.length,0);
 });
+
+test('team DAG maps both combination parents and stalled branches without promoting done tasks',()=>{
+ const data=require('../fixtures/demo-state.json');const g=build(data,{team:true});
+ const combine=g.nodes.find(n=>n.teamTask==='combine-a-b');
+ assert.equal(g.edges.filter(e=>e.target===combine.id&&!e.grouping).length,2);
+ assert.ok(g.nodes.some(n=>n.teamTask==='refine-b'&&n.status.startsWith('stalled')));
+ assert.equal(g.nodes.find(n=>n.teamTask==='research-a').valid,undefined);
+ assert.equal(g.nodes.filter(n=>n.type==='team-candidate'&&n.record.sha==='3'.repeat(40)).length,1);
+ assert.ok(g.nodes.find(n=>n.record.sha==='3'.repeat(40)).subtitle.includes('2 instance/cohorts'));
+ assert.deepEqual(g.warnings,[]);
+});
+test('team readiness respects dependencies, explicit deadlines and blocked work',()=>{
+ const {readyTasks}=require('../app.js');
+ const ledger={tasks:{a:{id:'a',status:'stalled'},b:{id:'b',status:'ready',priority:5,deadline_unix:200,depends_on:['a']},c:{id:'c',status:'ready',deadline_unix:200,depends_on:['unknown']},d:{id:'d',status:'ready',deadline_unix:80},e:{id:'e',status:'blocked',deadline_unix:200}}};
+ assert.deepEqual(readyTasks(ledger,100).map(t=>t.id),['b']);
+});
+test('top-down team graph preserves forward dependencies and distinct evaluation cohorts',()=>{
+ const data=require('../fixtures/demo-state.json');const g=layout(build(data,{team:true,evaluations:true}),'down');
+ for(const e of g.edges)assert.ok(g.nodes.find(n=>n.id===e.source).y<g.nodes.find(n=>n.id===e.target).y);
+ assert.equal(g.nodes.filter(n=>n.type==='evaluation').length,Object.keys(data.team_search.observations).length);
+ assert.ok(g.nodes.filter(n=>n.type==='team-candidate').every(n=>n.metric===undefined));
+});

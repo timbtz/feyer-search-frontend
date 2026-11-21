@@ -275,5 +275,725 @@
         }
       ]
     }
-  ]
+  ],
+  "team_search": {
+    "schema": "feyer-team-search-v1",
+    "coordinator": "demo-coordinator",
+    "tasks": {
+      "research-a": {
+        "id": "research-a",
+        "kind": "explore",
+        "parents": [
+          "1111111111111111111111111111111111111111"
+        ],
+        "candidates": [
+          "2222222222222222222222222222222222222222"
+        ],
+        "status": "done",
+        "owner": "alice",
+        "instance": "amd-alice",
+        "claim_id": null,
+        "hypothesis": "Investigate a distinct implementation mechanism.",
+        "depends_on": [],
+        "candidate_branches": {
+          "2222222222222222222222222222222222222222": "explore/demo/research-a"
+        },
+        "deadline_unix": 4102444800,
+        "max_candidates": 3,
+        "minimum_full_runs": 3,
+        "minimum_gain_fraction": 0.03,
+        "minimum_gain_seconds": 0.02,
+        "priority": 20
+      },
+      "research-b": {
+        "id": "research-b",
+        "kind": "explore",
+        "parents": [
+          "1111111111111111111111111111111111111111"
+        ],
+        "candidates": [
+          "3333333333333333333333333333333333333333"
+        ],
+        "status": "done",
+        "owner": "bob",
+        "instance": "amd-bob",
+        "claim_id": null,
+        "hypothesis": "Investigate a distinct implementation mechanism.",
+        "depends_on": [],
+        "candidate_branches": {
+          "3333333333333333333333333333333333333333": "explore/demo/research-b"
+        },
+        "deadline_unix": 4102444800,
+        "max_candidates": 3,
+        "minimum_full_runs": 3,
+        "minimum_gain_fraction": 0.03,
+        "minimum_gain_seconds": 0.02,
+        "priority": 20
+      },
+      "refine-a": {
+        "id": "refine-a",
+        "kind": "refine",
+        "parents": [
+          "2222222222222222222222222222222222222222"
+        ],
+        "candidates": [
+          "4444444444444444444444444444444444444444"
+        ],
+        "status": "done",
+        "owner": "alice",
+        "instance": "amd-alice",
+        "claim_id": null,
+        "hypothesis": "Improve the immediately preceding validated incumbent.",
+        "depends_on": [],
+        "candidate_branches": {
+          "4444444444444444444444444444444444444444": "explore/demo/refine-a"
+        },
+        "deadline_unix": 4102444800,
+        "max_candidates": 1,
+        "minimum_full_runs": 3,
+        "minimum_gain_fraction": 0.03,
+        "minimum_gain_seconds": 0.02,
+        "priority": 20
+      },
+      "refine-b": {
+        "id": "refine-b",
+        "kind": "refine",
+        "parents": [
+          "3333333333333333333333333333333333333333"
+        ],
+        "candidates": [
+          "5555555555555555555555555555555555555555"
+        ],
+        "status": "stalled",
+        "owner": "bob",
+        "instance": "amd-bob",
+        "claim_id": null,
+        "hypothesis": "Improve the immediately preceding validated incumbent.",
+        "depends_on": [],
+        "candidate_branches": {
+          "5555555555555555555555555555555555555555": "explore/demo/refine-b"
+        },
+        "deadline_unix": 4102444800,
+        "max_candidates": 1,
+        "minimum_full_runs": 3,
+        "minimum_gain_fraction": 0.03,
+        "minimum_gain_seconds": 0.02,
+        "priority": 20,
+        "resolution": "Successor did not improve on the incumbent. Preserve the parent for a compatible combination."
+      },
+      "combine-a-b": {
+        "id": "combine-a-b",
+        "kind": "combine",
+        "parents": [
+          "4444444444444444444444444444444444444444",
+          "3333333333333333333333333333333333333333"
+        ],
+        "candidates": [
+          "6666666666666666666666666666666666666666"
+        ],
+        "status": "done",
+        "owner": "alice",
+        "instance": "amd-alice",
+        "claim_id": null,
+        "hypothesis": "Combine compatible transformations and compare against the better parent.",
+        "depends_on": [],
+        "candidate_branches": {
+          "6666666666666666666666666666666666666666": "explore/demo/combine-a-b"
+        },
+        "deadline_unix": 4102444800,
+        "max_candidates": 3,
+        "minimum_full_runs": 3,
+        "minimum_gain_fraction": 0.03,
+        "minimum_gain_seconds": 0.02,
+        "priority": 20
+      },
+      "refine-combination": {
+        "id": "refine-combination",
+        "kind": "refine",
+        "parents": [
+          "6666666666666666666666666666666666666666"
+        ],
+        "candidates": [
+          "7777777777777777777777777777777777777777"
+        ],
+        "status": "done",
+        "owner": "alice",
+        "instance": "amd-alice",
+        "claim_id": null,
+        "hypothesis": "Improve the immediately preceding validated incumbent.",
+        "depends_on": [],
+        "candidate_branches": {
+          "7777777777777777777777777777777777777777": "explore/demo/refine-combination"
+        },
+        "deadline_unix": 4102444800,
+        "max_candidates": 1,
+        "minimum_full_runs": 3,
+        "minimum_gain_fraction": 0.03,
+        "minimum_gain_seconds": 0.02,
+        "priority": 20
+      },
+      "confirm-integration": {
+        "id": "confirm-integration",
+        "kind": "confirm",
+        "parents": [
+          "7777777777777777777777777777777777777777"
+        ],
+        "candidates": [],
+        "status": "claimed",
+        "owner": "carol",
+        "instance": "amd-carol",
+        "claim_id": "demo-claim-confirm-integration",
+        "hypothesis": "Confirm the exact integrated SHA before selecting a submission.",
+        "depends_on": [],
+        "candidate_branches": {},
+        "deadline_unix": 4102444800,
+        "max_candidates": 3,
+        "minimum_full_runs": 3,
+        "minimum_gain_fraction": 0.03,
+        "minimum_gain_seconds": 0.02,
+        "priority": 20
+      },
+      "open-factorization": {
+        "id": "open-factorization",
+        "kind": "explore",
+        "parents": [
+          "1111111111111111111111111111111111111111"
+        ],
+        "candidates": [],
+        "status": "ready",
+        "owner": null,
+        "instance": null,
+        "claim_id": null,
+        "hypothesis": "Investigate a distinct implementation mechanism.",
+        "depends_on": [],
+        "candidate_branches": {},
+        "deadline_unix": 4102444800,
+        "max_candidates": 3,
+        "minimum_full_runs": 3,
+        "minimum_gain_fraction": 0.03,
+        "minimum_gain_seconds": 0.02,
+        "priority": 20
+      },
+      "diagnose-gradient": {
+        "id": "diagnose-gradient",
+        "kind": "diagnose",
+        "parents": [
+          "1111111111111111111111111111111111111111"
+        ],
+        "candidates": [],
+        "status": "blocked",
+        "owner": "bob",
+        "instance": "amd-bob",
+        "claim_id": null,
+        "hypothesis": "Investigate an unexplored numerical or implementation question.",
+        "depends_on": [],
+        "candidate_branches": {},
+        "deadline_unix": 4102444800,
+        "max_candidates": 3,
+        "minimum_full_runs": 3,
+        "minimum_gain_fraction": 0.03,
+        "minimum_gain_seconds": 0.02,
+        "priority": 20,
+        "resolution": "Await independent numerical diagnostic."
+      }
+    },
+    "observations": {
+      "demo-amd-alice-1-0": {
+        "instance": "amd-alice",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "1111111111111111111111111111111111111111",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-alice-synthetic-cohort",
+          "job_id": "demo-amd-alice-1-0",
+          "metrics": {
+            "total": 39.9,
+            "compilation": 16.0,
+            "runtime": 20.0,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-alice-1-1": {
+        "instance": "amd-alice",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "1111111111111111111111111111111111111111",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-alice-synthetic-cohort",
+          "job_id": "demo-amd-alice-1-1",
+          "metrics": {
+            "total": 40.0,
+            "compilation": 16.0,
+            "runtime": 20.0,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-alice-1-2": {
+        "instance": "amd-alice",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "1111111111111111111111111111111111111111",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-alice-synthetic-cohort",
+          "job_id": "demo-amd-alice-1-2",
+          "metrics": {
+            "total": 40.1,
+            "compilation": 16.0,
+            "runtime": 20.0,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-alice-2-0": {
+        "instance": "amd-alice",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "2222222222222222222222222222222222222222",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-alice-synthetic-cohort",
+          "job_id": "demo-amd-alice-2-0",
+          "metrics": {
+            "total": 34.9,
+            "compilation": 14.0,
+            "runtime": 17.5,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-alice-2-1": {
+        "instance": "amd-alice",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "2222222222222222222222222222222222222222",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-alice-synthetic-cohort",
+          "job_id": "demo-amd-alice-2-1",
+          "metrics": {
+            "total": 35.0,
+            "compilation": 14.0,
+            "runtime": 17.5,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-alice-2-2": {
+        "instance": "amd-alice",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "2222222222222222222222222222222222222222",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-alice-synthetic-cohort",
+          "job_id": "demo-amd-alice-2-2",
+          "metrics": {
+            "total": 35.1,
+            "compilation": 14.0,
+            "runtime": 17.5,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-bob-3-0": {
+        "instance": "amd-bob",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "3333333333333333333333333333333333333333",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-bob-synthetic-cohort",
+          "job_id": "demo-amd-bob-3-0",
+          "metrics": {
+            "total": 38.9,
+            "compilation": 15.600000000000001,
+            "runtime": 19.5,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-bob-3-1": {
+        "instance": "amd-bob",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "3333333333333333333333333333333333333333",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-bob-synthetic-cohort",
+          "job_id": "demo-amd-bob-3-1",
+          "metrics": {
+            "total": 39.0,
+            "compilation": 15.600000000000001,
+            "runtime": 19.5,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-bob-3-2": {
+        "instance": "amd-bob",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "3333333333333333333333333333333333333333",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-bob-synthetic-cohort",
+          "job_id": "demo-amd-bob-3-2",
+          "metrics": {
+            "total": 39.1,
+            "compilation": 15.600000000000001,
+            "runtime": 19.5,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-alice-3-0": {
+        "instance": "amd-alice",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "3333333333333333333333333333333333333333",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-alice-synthetic-cohort",
+          "job_id": "demo-amd-alice-3-0",
+          "metrics": {
+            "total": 36.9,
+            "compilation": 14.8,
+            "runtime": 18.5,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-alice-3-1": {
+        "instance": "amd-alice",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "3333333333333333333333333333333333333333",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-alice-synthetic-cohort",
+          "job_id": "demo-amd-alice-3-1",
+          "metrics": {
+            "total": 37.0,
+            "compilation": 14.8,
+            "runtime": 18.5,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-alice-3-2": {
+        "instance": "amd-alice",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "3333333333333333333333333333333333333333",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-alice-synthetic-cohort",
+          "job_id": "demo-amd-alice-3-2",
+          "metrics": {
+            "total": 37.1,
+            "compilation": 14.8,
+            "runtime": 18.5,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-alice-4-0": {
+        "instance": "amd-alice",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "4444444444444444444444444444444444444444",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-alice-synthetic-cohort",
+          "job_id": "demo-amd-alice-4-0",
+          "metrics": {
+            "total": 31.9,
+            "compilation": 12.8,
+            "runtime": 16.0,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-alice-4-1": {
+        "instance": "amd-alice",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "4444444444444444444444444444444444444444",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-alice-synthetic-cohort",
+          "job_id": "demo-amd-alice-4-1",
+          "metrics": {
+            "total": 32.0,
+            "compilation": 12.8,
+            "runtime": 16.0,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-alice-4-2": {
+        "instance": "amd-alice",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "4444444444444444444444444444444444444444",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-alice-synthetic-cohort",
+          "job_id": "demo-amd-alice-4-2",
+          "metrics": {
+            "total": 32.1,
+            "compilation": 12.8,
+            "runtime": 16.0,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-bob-5-0": {
+        "instance": "amd-bob",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "5555555555555555555555555555555555555555",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-bob-synthetic-cohort",
+          "job_id": "demo-amd-bob-5-0",
+          "metrics": {
+            "total": 39.9,
+            "compilation": 16.0,
+            "runtime": 20.0,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-bob-5-1": {
+        "instance": "amd-bob",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "5555555555555555555555555555555555555555",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-bob-synthetic-cohort",
+          "job_id": "demo-amd-bob-5-1",
+          "metrics": {
+            "total": 40.0,
+            "compilation": 16.0,
+            "runtime": 20.0,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-bob-5-2": {
+        "instance": "amd-bob",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "5555555555555555555555555555555555555555",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-bob-synthetic-cohort",
+          "job_id": "demo-amd-bob-5-2",
+          "metrics": {
+            "total": 40.1,
+            "compilation": 16.0,
+            "runtime": 20.0,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-alice-6-0": {
+        "instance": "amd-alice",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "6666666666666666666666666666666666666666",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-alice-synthetic-cohort",
+          "job_id": "demo-amd-alice-6-0",
+          "metrics": {
+            "total": 27.9,
+            "compilation": 11.200000000000001,
+            "runtime": 14.0,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-alice-6-1": {
+        "instance": "amd-alice",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "6666666666666666666666666666666666666666",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-alice-synthetic-cohort",
+          "job_id": "demo-amd-alice-6-1",
+          "metrics": {
+            "total": 28.0,
+            "compilation": 11.200000000000001,
+            "runtime": 14.0,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-alice-6-2": {
+        "instance": "amd-alice",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "6666666666666666666666666666666666666666",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-alice-synthetic-cohort",
+          "job_id": "demo-amd-alice-6-2",
+          "metrics": {
+            "total": 28.1,
+            "compilation": 11.200000000000001,
+            "runtime": 14.0,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-alice-7-0": {
+        "instance": "amd-alice",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "7777777777777777777777777777777777777777",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-alice-synthetic-cohort",
+          "job_id": "demo-amd-alice-7-0",
+          "metrics": {
+            "total": 25.9,
+            "compilation": 10.4,
+            "runtime": 13.0,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-alice-7-1": {
+        "instance": "amd-alice",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "7777777777777777777777777777777777777777",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-alice-synthetic-cohort",
+          "job_id": "demo-amd-alice-7-1",
+          "metrics": {
+            "total": 26.0,
+            "compilation": 10.4,
+            "runtime": 13.0,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      },
+      "demo-amd-alice-7-2": {
+        "instance": "amd-alice",
+        "task": null,
+        "evidence": {
+          "candidate_sha": "7777777777777777777777777777777777777777",
+          "eligible_full": true,
+          "profile": "full",
+          "category": "valid_full",
+          "cohort_digest": "amd-alice-synthetic-cohort",
+          "job_id": "demo-amd-alice-7-2",
+          "metrics": {
+            "total": 26.1,
+            "compilation": 10.4,
+            "runtime": 13.0,
+            "peak_rss_bytes": 8000000000
+          }
+        }
+      }
+    },
+    "events": []
+  },
+  "team_search_source": {
+    "available": true,
+    "mode": "synthetic",
+    "source": "Bundled synthetic fixture",
+    "observed_at": null,
+    "source_updated_at": null,
+    "stale": false,
+    "error": null
+  },
+  "profiler_reports": [
+    {
+      "schema": "feyer-profiler-v1",
+      "status": "ok",
+      "job_id": "demo-profile-job",
+      "candidate_sha": "7777777777777777777777777777777777777777",
+      "instance": "amd-alice",
+      "cohort_digest": "demo-cohort",
+      "profile": "full",
+      "execution_status": "completed",
+      "eligible_full": true,
+      "first_run_seconds": 26,
+      "phase_sum_seconds": 26,
+      "unattributed_seconds": 0,
+      "job_wall_seconds": 36,
+      "phases": [
+        {
+          "key": "forward",
+          "seconds": 12,
+          "share": 0.46153846153846156
+        },
+        {
+          "key": "forward_compile",
+          "seconds": 8,
+          "share": 0.3076923076923077
+        },
+        {
+          "key": "gradient",
+          "seconds": 4,
+          "share": 0.15384615384615385
+        },
+        {
+          "key": "setup",
+          "seconds": 2,
+          "share": 0.07692307692307693
+        }
+      ],
+      "groups": [],
+      "warm_timing": {
+        "forward": 10
+      },
+      "limits": [
+        "Synthetic phase timings. No measured optimization result."
+      ],
+      "issues": []
+    }
+  ],
+  "profiler_source": {
+    "available": true,
+    "source": "Synthetic fixture",
+    "stale": false,
+    "observed_at": null,
+    "error": null
+  }
 }

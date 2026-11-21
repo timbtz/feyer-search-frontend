@@ -30,3 +30,19 @@ Scientific parent references are scoped to the campaign. Multiple parents form a
 The frontend uses text nodes for evidence strings, not HTML. The API producer must sanitize sensitive keys and bounded logs before returning JSON. The local proxy does not independently redact a live upstream response; supply only the existing sanitized observatory API or a reviewed export. Never commit production snapshots, session transcripts, API keys, or SSH material to this repository.
 
 No POST, submission, cancellation, assignment, or credential-management endpoints are part of this frontend contract.
+
+## Shared task ledger
+
+`team_search` is either null (unavailable) or an original sanitized `feyer-team-search-v1` object with `coordinator`, `tasks` keyed by task ID, `observations` keyed by instance/job identity, and `events`. Tasks retain `kind`, `status`, `parents`, `candidates`, `depends_on`, `owner`, `instance`, `deadline_unix`, frozen budget and thresholds. Kinds are explore/refine/combine/confirm/diagnose. A refine task admits one successor to its frozen incumbent. `done`, `stalled`, and `blocked` are routing outcomes, not a numerical verdict.
+
+Each observation includes `instance` and normalized `evidence` (`candidate_sha`, `job_id`, `profile`, `eligible_full`, `category`, `cohort_digest`, `metrics`, and recorded checks). The UI keeps observations separated by instance/cohort; it never pools their totals or infers a final champion. Multiple combination inputs remain explicit.
+
+`team_search_source` contains `available`, `mode` (github/local_snapshot), `source`, `sync_enabled`, `observed_at`, `source_updated_at`, `stale`, and `error`. A successful fetch time differs from the last source event. The observatory's explicit `--sync-team` option performs GitHub GET polling every 30 seconds; an error or observation older than 90 seconds is stale. Last-good records remain visible. No write credentials are sent to the browser.
+
+The standalone server's `--team-snapshot` mode wraps a reviewed local ledger export in this shape and labels it static. The backend remains responsible for sanitizing sensitive content before export.
+
+## Optional profiling export
+
+`profiler_reports` is an array of `feyer-profiler-v1` records: `status` (ok/invalid_report/conflicting_artifacts), exact `candidate_sha` and `job_id`, `instance`, `cohort_digest`, `profile`, `eligible_full`, validation details, first-run/phase-sum/unattributed/job-wall seconds, separate `warm_timing`, ranked `phases` and `groups` with `key`/`name`, seconds and shares, plus issues/limits. The Timing profile tab shows measured phase cost before any conclusions about optimization. Hypothetical halving estimates in raw records are not realized gains.
+
+The observatory can consume `.lab/profiler/report.json`, an optional `feyer-profiler-collection-v1` envelope with `profiler_reports`. `profiler_source` exposes availability, file-observation freshness, and errors. Collection is owned by the profiler producer; reading the dashboard does not run profiling, benchmarks or models. Last-good reports remain visible when refresh fails.

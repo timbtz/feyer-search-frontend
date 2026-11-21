@@ -24,6 +24,17 @@ class SnapshotTests(unittest.TestCase):
         self.assertEqual(state['generated_at'], 100)
         self.assertNotIn('demo', state)
 
+    def test_team_only_export_does_not_invent_campaigns_or_live_status(self):
+        ledger = json.loads(state_body())['team_search']
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / 'team.json'
+            p.write_text(json.dumps(ledger))
+            state = json.loads(state_body(team_snapshot=p))
+        self.assertEqual(state['campaigns'], [])
+        self.assertTrue(state['snapshot'])
+        self.assertEqual(state['team_search'], ledger)
+        self.assertEqual(state['team_search_source']['mode'], 'local_snapshot')
+
     def test_invalid_payload_is_rejected(self):
         with tempfile.TemporaryDirectory() as d:
             p = Path(d) / 'state.json'

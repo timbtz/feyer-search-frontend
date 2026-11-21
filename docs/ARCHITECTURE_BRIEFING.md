@@ -4,6 +4,14 @@
 
 This briefing is for a colleague developing the frontend or integration alongside Tim without access to Tim's Hetzner VPS. You can build and test the entire frontend using the included synthetic fixture or a sanitized observatory snapshot. VPS access is needed for host administration and live agent execution, not for frontend development.
 
+## Shared team workflow
+
+The primary collaboration protocol is now the GitHub ledger on `control/team-search`, schema `feyer-team-search-v1`. Follow [the one-to-one workflow map and clone instructions](SEARCH_WORKFLOW.md): explore, refine the current incumbent, stop unproductive branches, combine compatible validated parents, refine again, and confirm the exact integrated SHA. The coordinator admits tasks; each participant claims work and uses their own agent account and AMD queue. Optional per-campaign controllers and the Hetzner broker remain supporting execution paths.
+
+![Three-instance architecture](images/three-instance-search.png)
+
+The CLI and recovery guards are integrated into the experiment repository and the control ledger is initialized. Provisioning/calibration of colleagues' additional AMD instances remains an operator step. Source availability, a successful task claim, an agent process, and a validated scientific result are distinct states.
+
 ## The part an AMD checkout cannot explain
 
 AMD is primarily the evaluation host. The broader search also depends on coordinator state, GitHub assignments and receipts, authenticated agent processes, and an optional remote selection helper. Those records and services do not all live in the AMD checkout. Git branches may contain infrastructure that has not been integrated into the same revision deployed on AMD.
@@ -12,7 +20,7 @@ AMD is primarily the evaluation host. The broader search also depends on coordin
 | --- | --- | --- |
 | Frontend | Read-only search DAG, results, evidence inspection | This repository; can run on either colleague's laptop. No host credentials. |
 | Observatory API | Aggregate campaign ledgers, worker observations, historical reports, and optional queue results | `lab.live_dashboard` in the experiment repo; currently designed around the coordinator's local `.lab` directory. It is not automatically available on AMD. |
-| Coordinator | Own campaigns, budgets, claims, frozen operators/rounds, proposal admission, exact commits, queue submission, and feedback | Local Python campaign runner in the inspected setup. Its placement can move. |
+| Coordination | Human-owned shared task admission/claims and evidence; optional per-campaign frozen operators, budgets and selection | `control/team-search` is shared GitHub state. Personal operators and optional local Python campaign runners own execution. Placement can change. |
 | Research executors | Run bounded Codex/Claude investigations; produce code or guidance | Local agent sessions and a native Codex broker on Hetzner. The inspected Hetzner adapter accepts Codex; it is not a general Claude broker. |
 | Selector | Choose from admitted implementation configurations | Enumeration, local search, SMAC, or optional bounded Qwen proposals. SMAC can run in an isolated local environment or through the separate Hetzner helper. |
 | Evaluator | Execute screen/full workloads, enforce recorded resource policy, retain artifacts | AMD shared queue and trusted worker. It owns numerical verdicts; agents do not self-certify results. |
@@ -84,6 +92,7 @@ The source relay can push a branch and send an incremental Git bundle through th
 
 The read-only snapshot is the frontend integration boundary. See [API contract](API_CONTRACT.md) and [the complete synthetic example](../fixtures/demo-state.json).
 
+- `team_search`: shared tasks, one-owner claims, exact scientific inputs, candidate SHAs, instance/cohort observations and events. `team_search_source` distinguishes source freshness and connection failure from an empty ledger.
 - `campaigns`: round specifications, lane ownership, candidate IDs/parents, parameters, provenance, model calls/outcomes, guidance, evaluation requests, eligible evidence, budgets, and source freshness.
 - `workers`: observed provider/model, session/branch identity, direction, host label, status, timestamp, and staleness. A model name must be recorded rather than guessed from an actor label.
 - `jobs` and `queue`: bounded read-only evaluation observations; remote results may arrive before the local ledger is reconciled.

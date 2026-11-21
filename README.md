@@ -2,6 +2,8 @@
 
 A read-only, graph-first view of the Feyer optimization search. Research and LLM runs connect to reviewed topology spaces, small-parameter searches, candidate ancestry, and evaluation evidence. The map lays itself out; it is not a drag-and-drop workflow editor.
 
+See [the complete three-instance workflow](docs/SEARCH_WORKFLOW.md) and its [architecture diagram](docs/images/three-instance-search.png). The shared team ledger maps research, single-successor refinement, stalled branches, multi-parent combinations, and exact-SHA confirmation.
+
 ## Run without infrastructure access
 
 Requires Python 3.9+. No npm install, VPS login, AMD account, or model credentials are needed to view the bundled synthetic example.
@@ -36,13 +38,17 @@ The browser refreshes every five seconds. An unavailable backend leaves the last
 
 ## Explore the DAG
 
-- **Entire search** combines recorded campaigns and worker observations. **Selected search round** focuses the campaign selector.
+- **Team workflow** maps the GitHub task ledger from top to bottom. **Campaign evidence** shows legacy and finite-search campaigns; **Selected search round** focuses the campaign selector.
 - **Earlier experiments** includes historical agent results by default; uncheck it to focus on campaign records. **Evaluation runs** adds individual screen/full requests, including repeats.
 - Select a node to trace recorded ancestors and descendants, inspect parameters and measurements, or follow connected evidence.
 - Scroll, zoom, expand the workspace, or fit the graph. Search models, ideas, commits, and IDs; press Enter to focus a match.
 - Solid edges represent recorded dependencies. Dashed edges indicate grouping or lane membership. A research proposal is never presented as a validated improvement.
 
 The graph describes the recorded search and its implementation choices. It does not infer an internal tensor/solver computation graph or an unrecorded relationship between a worker and a candidate.
+
+## Timing profile
+
+The Timing profile tab reads optional versioned profiler reports by exact job/commit and shows where first-run time is spent. It preserves separate warm timings, wall time, eligibility, instance/cohort, and source freshness. A missing export is unavailable, not a zero-cost profile. The collector and any deep diagnostics belong to the experiment repository; the frontend launches neither.
 
 ## Develop and verify
 
