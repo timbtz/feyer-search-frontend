@@ -234,3 +234,6 @@ h1 { font-size:clamp(44px,4.3vw,62px); }.intro,.showing-graph .intro { padding-b
 .verification-check { padding: .65rem 0; border-bottom: 1px solid var(--pds-theme-light-contrast-low, #ddd); overflow-wrap: anywhere; }
 .verification-check .facts { margin-block: .5rem; }
 .verification-summary { font-size: .78rem; line-height: 1.45; margin: .5rem 0; color: #7b4200; }
+
+/* Evidence identifiers remain readable on narrow screens. */
+.notice { overflow-wrap:anywhere; }
