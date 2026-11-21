@@ -301,7 +301,8 @@ if (typeof module !== 'undefined') module.exports = SearchDAG;
     disclosure(target,'Source record',n.record,'graph-record');
   }
   function renderGraph(){
-    const config={campaign:$('graph-scope').value==='campaign'?S.campaign:null,history:$('graph-history').checked||$('graph-scope').value==='campaign'&&S.campaign==='history',evaluations:$('graph-evaluations').checked};
+    $('graph-history').disabled=$('graph-scope').value==='campaign';
+    const config={campaign:$('graph-scope').value==='campaign'?S.campaign:null,history:$('graph-scope').value==='all'?$('graph-history').checked:S.campaign==='history',evaluations:$('graph-evaluations').checked};
     const graph=SearchDAG.layout(SearchDAG.build(S.data||{},config));
     const signature=JSON.stringify(graph);
     if(signature===G.signature)return;
