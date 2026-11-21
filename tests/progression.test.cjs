@@ -1,5 +1,16 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const {Progression}=require('../app.js');
+test('external phase aggregates retain source identity and cannot acquire full eligibility',()=>{
+ const sha='a'.repeat(40),record={record_id:'external-one',candidate_sha:sha,executor:{id:'teammate'},parents:[],reported_measurement:{candidate_sha:sha,source_ref:'https://example.com/report',source_digest:'b'.repeat(64),sample_count:3,metrics:{total:0.74,compilation:0.23},phases:{forward_compile:0.005},official_passed:true,arrays_passed:true}};
+ const m=Progression.build({team_search:{research_records:{one:record}}});
+ assert.equal(m.measurements.length,1);const r=m.measurements[0];
+ assert.equal(r.metrics.total,0.74);assert.equal(r.phases.forward_compile,0.005);
+ assert.equal(r.profile,'external_report');assert.equal(r.official_check,'not_independently_verified');
+ assert.equal(Progression.verdict({...r,evidence:{eligible_full:true}}).tone,'pending');
+ const {Metrics}=require('../app.js');assert.equal(Metrics.reference(r,[],{}).available,false);
+ const mismatch=structuredClone(record);mismatch.reported_measurement.candidate_sha='c'.repeat(40);
+ assert.equal(Progression.build({team_search:{research_records:{one:mismatch}}}).measurements.length,0);
+});
 test('progression separates finite numerical campaigns from research branches',()=>{
  const d={campaigns:[{id:'tuning',candidates:[{commit_sha:'tune'}]}],workers:[{id:'w',branch:'explore/research',direction:'a real hypothesis',status:'running',stale:false}],jobs:[{id:'j',sha:'tune',branch:'explore/tuning',profile:'full'},{id:'r',sha:'new',branch:'explore/research',profile:'screen'}]};
  const m=Progression.build(d);assert.equal(m.research.length,1);assert.equal(m.research[0].active,true);assert.equal(m.research[0].candidates.length,1);assert.equal(m.tuning.length,1);assert.equal(Progression.verdict(m.research[0].latest).label,'Screen only');
