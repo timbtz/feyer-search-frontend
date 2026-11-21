@@ -10,12 +10,14 @@ test('repeated receipts and screens do not become separate candidate revisions',
 });
 test('completed processes are not promoted; rejected and conflicting evidence stays unconfirmed or failed',()=>{
  assert.equal(Progression.verdict({profile:'full',status:'completed'}).label,'Unconfirmed');
+ assert.equal(Progression.verdict({profile:'full',official_check:'passed',strict_check:'passed',evidence:{eligible_full:false}}).label,'Unconfirmed');
+ assert.equal(Progression.verdict({profile:'full',official_check:'passed',strict_check:'passed',resource_evidence:{budget_exceeded:true}}).label,'Resource limit');
  assert.equal(Progression.verdict({profile:'full',official_check:'passed',strict_check:'failed'}).label,'Check failed');
  assert.equal(Progression.verdict({profile:'screen',official_check:'passed',strict_check:'passed'}).label,'Screen only');
 });
 test('observed ledger evidence joins only the matching job and exact SHA',()=>{
  const d={jobs:[{id:'a',sha:'sha-a',branch:'explore/a',profile:'full'}],team_search:{observations:{one:{instance:'host-1',evidence:{job_id:'a',candidate_sha:'sha-b',eligible_full:true}}},tasks:{}}};
- assert.equal(Progression.build(d).research[0].latest.evidence,undefined);
+ assert.equal(Progression.build(d).research[0].latest.evidence,undefined);assert.equal(Progression.build(d).unassigned.length,1);
 });
 test('empty sources never invent a branch, combination, confirmation or final winner',()=>{
  const m=Progression.build({campaigns:[]});for(const k of ['research','tuning','combinations','confirmations'])assert.deepEqual(m[k],[]);

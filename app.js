@@ -194,11 +194,12 @@ const SearchProgression = (() => {
     }
     const research=[...branches.values()].sort((a,b)=>Number(b.active)-Number(a.active)||b.updated-a.updated||a.id.localeCompare(b.id));
     const tuning=list(data.campaigns).map(c=>({id:c.id,selector:c.selector,status:c.status,dimensions:[...new Set(list(c.rounds).flatMap(r=>Object.keys(r.spec?.dimensions||{})))],candidates:list(c.candidates),record:c}));
-    return {research,tuning,tasks,combinations:tasks.filter(t=>t.kind==='combine'),confirmations:tasks.filter(t=>t.kind==='confirm'),ready:SearchDAG.readyTasks(data.team_search),unassigned:observations.filter(o=>!jobs.has(o.evidence?.job_id)&&!o.task)};
+    return {research,tuning,tasks,combinations:tasks.filter(t=>t.kind==='combine'),confirmations:tasks.filter(t=>t.kind==='confirm'),ready:SearchDAG.readyTasks(data.team_search),unassigned:observations.filter(o=>jobs.get(o.evidence?.job_id)?.sha!==o.evidence?.candidate_sha&&!o.task)};
   }
   function verdict(r){
     if(r.evidence?.category==='invalid_candidate'||r.official_check==='failed'||r.strict_check==='failed')return {label:'Check failed',tone:'failed'};
-    if(r.profile==='full'&&(r.evidence?.eligible_full===true||(r.official_check==='passed'&&r.strict_check==='passed')))return {label:'Full pass',tone:'pass'};
+    if(r.resource_evidence?.budget_exceeded===true)return {label:'Resource limit',tone:'failed'};
+    if(r.profile==='full'&&(r.evidence?r.evidence.eligible_full===true:(r.official_check==='passed'&&r.strict_check==='passed')))return {label:'Full pass',tone:'pass'};
     if(r.profile==='screen')return {label:'Screen only',tone:'screen'};
     return {label:'Unconfirmed',tone:'pending'};
   }
