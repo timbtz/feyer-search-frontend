@@ -78,3 +78,7 @@ Process links project declared candidate ancestry and explicit decision inputs/o
 ## External author-reported measurements
 
 A research record may include `reported_measurement` with an exact matching `candidate_sha`, immutable `source_ref` and `source_digest`, `sample_count`, `observed_at`, `instance`, `metrics`, `phases`, `warm_timing`, reported checks, tolerance policy and limits. These are author-reported aggregates, not evaluator job receipts. The UI labels them external and unverified, preserves the compilation breakdown, and excludes them from full eligibility and ranked deltas. Phase medians need not sum to the median total. An independently evaluated import remains its own exact SHA/job, linked by a sourced research record.
+
+## Verification within a run card
+
+A research record may carry `verification: {candidate_sha, checks: [...]}`. Both SHA fields must match the run exactly. Each check has `id`, `setup`, `name`, `method`, `status` (`passed`, `failed`, `needs_review`, `pending`, `blocked`, `unsupported`), `evidence_kind` (independent measurement, author report, source review, or planned), `summary`, `next_action`, and optional source reference, command, inputs, thresholds, outputs and timing scope. Immutable follow-up records add evidence; historical results are preserved. This panel is informational and never overrides evaluator eligibility. A setup-specific diagnostic pass is not a full challenge pass. Pending cases have no measured result. Tests of infrastructure are labelled separately from physics checks.
