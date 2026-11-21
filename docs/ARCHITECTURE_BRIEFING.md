@@ -8,7 +8,7 @@ This briefing is for a colleague developing the frontend or integration alongsid
 
 The primary collaboration protocol is now the GitHub ledger on `control/team-search`, schema `feyer-team-search-v1`. Follow [the one-to-one workflow map and clone instructions](SEARCH_WORKFLOW.md): explore, refine the current incumbent, stop unproductive branches, combine compatible validated parents, refine again, and confirm the exact integrated SHA. The coordinator admits tasks; each participant claims work and uses their own agent account and AMD queue. Optional per-campaign controllers and the Hetzner broker remain supporting execution paths.
 
-![Three-instance architecture](images/three-instance-search.png)
+![Three-instance architecture](images/search-architecture.svg)
 
 The CLI and recovery guards are integrated into the experiment repository and the control ledger is initialized. Provisioning/calibration of colleagues' additional AMD instances remains an operator step. Source availability, a successful task claim, an agent process, and a validated scientific result are distinct states.
 

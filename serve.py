@@ -11,7 +11,7 @@ from urllib.request import urlopen
 
 ROOT = Path(__file__).resolve().parent
 ASSETS = {'index.html', 'app.js', 'style.css', 'pds-loader.js', 'pds-variables.css',
-          'pds-normalize.css', 'pds-font-face.css'}
+          'pds-normalize.css', 'pds-font-face.css', 'search-architecture.svg'}
 LIMIT = 32 * 1024 * 1024
 CSP = ("default-src 'self'; connect-src 'self' https://cdn.ui.porsche.com; "
        "script-src 'self' https://cdn.ui.porsche.com; style-src 'self' 'unsafe-inline'; "
@@ -73,7 +73,7 @@ class Handler(BaseHTTPRequestHandler):
                 self.send_error(404)
                 return
             body = (ROOT / name).read_bytes()
-            mime = {'html': 'text/html', 'js': 'text/javascript', 'css': 'text/css'}[name.rsplit('.', 1)[1]]
+            mime = {'html': 'text/html', 'js': 'text/javascript', 'css': 'text/css', 'svg': 'image/svg+xml'}[name.rsplit('.', 1)[1]]
         self.send_response(200)
         self.send_header('Content-Type', mime + '; charset=utf-8')
         self.send_header('Content-Length', str(len(body)))

@@ -2,7 +2,7 @@
 
 A read-only, graph-first view of the Feyer optimization search. Research and LLM runs connect to reviewed topology spaces, small-parameter searches, candidate ancestry, and evaluation evidence. The map lays itself out; it is not a drag-and-drop workflow editor.
 
-See [the complete three-instance workflow](docs/SEARCH_WORKFLOW.md) and its [architecture diagram](docs/images/three-instance-search.png). The shared team ledger maps research, single-successor refinement, stalled branches, multi-parent combinations, and exact-SHA confirmation.
+See [the complete three-instance workflow](docs/SEARCH_WORKFLOW.md) and its [architecture diagram](docs/images/search-architecture.svg). The shared team ledger maps research, single-successor refinement, stalled branches, multi-parent combinations, and exact-SHA confirmation.
 
 ## Run without infrastructure access
 
@@ -36,7 +36,15 @@ The server proxies only `GET /api/state`; it does not forward credentials, launc
 
 The browser refreshes every five seconds. An unavailable backend leaves the last successful view visible with an explicit connection warning. This frontend is a local application; publishing this repository does not deploy a hosted dashboard.
 
-## Explore the DAG
+## Follow the search
+
+The main **Search progression** view shows a baseline widening into independent research directions, compact candidate histories, bounded numerical refinement, stopping, combination, and exact confirmation. Select a direction or marker for receipts, use **Focus map** for the canvas alone, and open **Architecture** for the algorithm and three-instance diagram. The first three recent directions are shown initially; all remain available.
+
+Dashed workflow lines describe intended progression. Candidate markers are chronological membership in an explicitly recorded branch; they are not invented parent edges. Latest full measurements remain single observations. Records without branch metadata remain accessible separately.
+
+## Inspect the exact evidence DAG
+
+Switch to **Exact evidence DAG** for explicit scientific ancestry and these controls:
 
 - **Team workflow** maps the GitHub task ledger from top to bottom. **Campaign evidence** shows legacy and finite-search campaigns; **Selected search round** focuses the campaign selector.
 - **Earlier experiments** includes historical agent results by default; uncheck it to focus on campaign records. **Evaluation runs** adds individual screen/full requests, including repeats.

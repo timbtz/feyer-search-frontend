@@ -2,7 +2,7 @@
 
 This is the intended research process mapped to the implemented GitHub task protocol. Deployment topology remains subject to change. Each participant runs their own Claude or Codex account and submits to their own AMD instance. Qwen, SMAC, and the Hetzner launcher are optional. The shared ledger coordinates humans and their agents; it does not automatically launch a fleet or authorize new compute budgets.
 
-![Three-instance search architecture and scientific DAG](images/three-instance-search.png)
+![Three-instance search architecture and scientific DAG](images/search-architecture.svg)
 
 The image shows an example of fan-out and convergence. A stalled branch preserves its best implementation and can still supply a useful combination parent. Further combination/refinement iterations happen before final submission when justified. The live graph shows only recorded tasks and evidence, not hypothetical completed stages.
 
