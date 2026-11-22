@@ -1,3 +1,13 @@
+## Submission view and included experiment data
+
+The repository includes `data/latest.json` and its SHA-256/count manifest at `data/manifest.json`, explicitly authorized for this frontend update. It contains sanitized experiment observations, bounded evaluator logs, transfer audits, and exact source diffs for the submission candidates. Raw agent conversations and credentials are excluded. The snapshot is a dated observation, not a live connection or a final-candidate decision.
+
+Run `npm start` and open http://localhost:8770 to view the included data. **Submission** explains each optimization with exact source line links and baseline diffs. **Run archive** searches all captured evaluator runs. Candidate timing comparisons retain their measurement scope and failures.
+
+For live data: `python3 serve.py --api-url http://127.0.0.1:8765`. The observatory must export the submission dossier. To refresh the committed data: `npm run refresh:data`. After committing source edits, use `npm run push:updated -- -u origin HEAD`: this refreshes the snapshot, commits its two data files, and pushes the current branch. A failed refresh stops the push. Ordinary `git push` does not refresh data automatically.
+
+Snapshot data is deliberately tracked under `data/`; incidental exports, private transcripts and credentials remain excluded. Check `data/manifest.json` for capture time, run counts, candidate identities and the data hash.
+
 # Feyer search frontend
 
 A read-only, graph-first view of the Feyer optimization search. Research and LLM runs connect to reviewed topology spaces, small-parameter searches, candidate ancestry, and evaluation evidence. The map lays itself out; it is not a drag-and-drop workflow editor.

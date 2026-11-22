@@ -10,7 +10,7 @@ from urllib.parse import urlsplit
 from urllib.request import urlopen
 
 ROOT = Path(__file__).resolve().parent
-ASSETS = {'index.html', 'app.js', 'style.css', 'pds-loader.js', 'pds-variables.css',
+ASSETS = {'index.html', 'app.js', 'submission.js', 'style.css', 'pds-loader.js', 'pds-variables.css',
           'pds-normalize.css', 'pds-font-face.css', 'search-architecture.svg'}
 LIMIT = 32 * 1024 * 1024
 CSP = ("default-src 'self'; connect-src 'self' https://cdn.ui.porsche.com; "
@@ -89,13 +89,15 @@ class Handler(BaseHTTPRequestHandler):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    modes = parser.add_mutually_exclusive_group(required=True)
+    modes = parser.add_mutually_exclusive_group()
     modes.add_argument('--demo', action='store_true', help='Use explicitly synthetic sample evidence')
     modes.add_argument('--api-url', help='Origin of an existing read-only observatory, e.g. http://127.0.0.1:8765')
     modes.add_argument('--snapshot', type=Path, help='Local sanitized /api/state JSON export (keep out of Git)')
     modes.add_argument('--team-snapshot', type=Path, help='Local sanitized feyer-team-search-v1 ledger export')
     parser.add_argument('--port', type=int, default=8770)
     args = parser.parse_args()
+    if not (args.demo or args.api_url or args.snapshot or args.team_snapshot):
+        args.snapshot = ROOT / "data/latest.json"
     if args.api_url:
         url = urlsplit(args.api_url)
         if url.scheme not in ('http', 'https') or not url.hostname or url.username or url.password or url.query or url.fragment or url.path not in ('', '/'):

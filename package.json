@@ -6,9 +6,11 @@
   "private": true,
   "scripts": {
     "build:pds": "node build-pds.cjs",
-    "check": "node --check app.js",
+    "check": "node --check app.js && node --check submission.js",
     "test": "node --test tests/*.test.cjs",
-    "start": "python3 serve.py --demo",
-    "test:server": "python3 -m unittest discover -s tests -p \"test_*.py\""
+    "start": "python3 serve.py",
+    "test:server": "python3 -m unittest discover -s tests -p \"test_*.py\"",
+    "refresh:data": "python3 scripts/refresh-data.py",
+    "push:updated": "python3 scripts/push-updated.py"
   }
 }

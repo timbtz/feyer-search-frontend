@@ -82,3 +82,9 @@ A research record may include `reported_measurement` with an exact matching `can
 ## Verification within a run card
 
 A research record may carry `verification: {candidate_sha, checks: [...]}`. Both SHA fields must match the run exactly. Each check has `id`, `setup`, `name`, `method`, `status` (`passed`, `failed`, `needs_review`, `pending`, `blocked`, `unsupported`), `evidence_kind` (independent measurement, author report, source review, or planned), `summary`, `next_action`, and optional source reference, command, inputs, thresholds, outputs and timing scope. Immutable follow-up records add evidence; historical results are preserved. This panel is informational and never overrides evaluator eligibility. A setup-specific diagnostic pass is not a full challenge pass. Pending cases have no measured result. Tests of infrastructure are labelled separately from physics checks.
+
+## Exact-source submission dossier
+
+Optional `submission` uses `feyer-submission-v1`: `baseline_sha`, nullable `selected_sha`, explicit `selection_status`, and `candidates`. Each candidate has a full immutable `sha`, editorial `concepts` with symbol references, changed `files` with old/new numbered diff hunks and source symbol ranges, and retained `artifacts` with path, file observation time, embedded identity classification and sanitized payload. Missing source or evidence appears in `issues`. These annotations do not establish line-level timing attribution or override official/strict eligibility. The server reads a bounded allowlist and Git objects, without evaluating simulator code.
+
+The committed snapshot sets `snapshot: true` and includes `snapshot_export.captured_at_utc`; `generated_at` remains the API observation time. Data refresh is explicit through `npm run refresh:data` or the refresh/commit/push workflow `npm run push:updated`.

@@ -1,0 +1,14 @@
+{
+  "captured_at_utc": "2026-11-22T00:25:06.847248+00:00",
+  "generated_at": 1795307104.031567,
+  "sha256": "a9521f2d999f42ed52589d7fae236f1e6b8381a59aa17e4a4f90b3dac02f6a61",
+  "bytes": 10878500,
+  "jobs": 276,
+  "profiles": 276,
+  "candidates": [
+    "aac9904cb4dd9b2caae377d8d4694f6782ec3498",
+    "53f38d342c3228c052785e8c9d63b6ce9c832dd1",
+    "c4153e7d0058231e80cc56147e139279df929c07"
+  ],
+  "selection_status": "No final submission selection recorded. Default view is the transfer-tested dense candidate."
+}

@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/pds-font-face.css">
   <link rel="stylesheet" href="/style.css">
   <script defer src="/pds-loader.js"></script>
+  <script defer src="/submission.js"></script>
   <script defer src="/app.js"></script>
 </head>
 <body>
@@ -31,6 +32,8 @@
       <button type="button" data-view="profiler" id="tab-profiler" aria-controls="profiler">Timing profile</button>
       <button type="button" data-view="results" id="tab-results" aria-controls="results">Results</button>
       <button type="button" data-view="generalization" id="tab-generalization" aria-controls="generalization">Robustness</button>
+      <button type="button" data-view="submission" id="tab-submission" aria-controls="submission">Submission</button>
+      <button type="button" data-view="archive" id="tab-archive" aria-controls="archive">Run archive</button>
     </p-tabs-bar>
     <div class="round-bar"><div><label for="campaign">Search round</label><select id="campaign"><option value="">Loading…</option></select></div><p id="round-caption"></p></div>
     <div id="notice" class="notice" hidden role="status"></div>
@@ -122,6 +125,15 @@
       <div class="section-intro"><h2>Does it hold beyond the benchmark?</h2><p>Additional setup and transformation checks are internal review evidence, separate from official benchmark acceptance. Each candidate is compared with the unchanged simulator on other setups (same three-stage pipeline, outputs and gradient) and under other JAX transformations.</p></div>
       <div class="profiler-controls"><label>Find a commit or label<input id="generalization-filter" type="search" placeholder="Candidate SHA or label"></label><label>Candidate<select id="generalization-select"></select></label></div>
       <p id="generalization-source" class="meta-line" role="status"></p><div id="generalization-detail"></div>
+    </section>
+    <section id="submission" class="view" role="tabpanel" aria-labelledby="tab-submission" hidden>
+      <div class="section-intro"><h2>From baseline to submission.</h2><p>Inspect the exact code, the optimization concepts, and the evidence behind each candidate.</p></div>
+      <div class="dossier-controls"><label>Candidate revision<select id="submission-select"></select></label></div><div id="submission-detail"></div>
+    </section>
+    <section id="archive" class="view" role="tabpanel" aria-labelledby="tab-archive" hidden>
+      <div class="section-intro"><h2>Every recorded evaluation.</h2><p>Search the latest evaluator receipts, validation results, phase timings and retained logs across all rounds.</p></div>
+      <div class="dossier-controls"><label>Search runs<input id="archive-query" type="search" placeholder="SHA, job ID, branch, hypothesis or status"></label></div>
+      <p id="archive-count" class="meta-line" role="status"></p><div id="archive-list"></div><button id="archive-more" class="graph-action" type="button" hidden>Show 30 more runs</button>
     </section>
     <footer><span id="freshness">Waiting for evidence.</span><button id="technical-toggle" class="text-button">Technical details</button></footer>
     <section id="technical" hidden aria-label="Technical details"><div class="technical-heading"><h2>Technical details</h2><p>Source records and logs for debugging. This view is read-only.</p></div><div id="technical-content"></div></section>

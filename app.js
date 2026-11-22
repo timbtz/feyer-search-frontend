@@ -941,15 +941,16 @@ if(typeof module!=='undefined')module.exports.SessionGraph=SessionGraph;
     else if(pending&&c?.controller?.process_alive===false){notice.textContent='The local controller has stopped with work still pending. Remote results remain available; see technical details.';notice.hidden=false;}
     else if(S.data?.queue?.enabled&&S.data.queue.stale&&S.data.queue.error){notice.textContent='The AMD connection is unavailable. Showing the last recorded results.';notice.hidden=false;}
     $('round-caption').textContent=c?`${statusLabel(c)}${c.source_updated_at?` · last evidence ${time(c.source_updated_at)}`:''}`:'No search evidence available.';
+    SubmissionReport.render(S.data);
     renderProfiler();renderTeam();renderProgression();renderTopology();renderGraph();renderSummary();renderNow();drawTable($('latest'),rows().filter(r=>r.kind!=='seed').slice(-3).reverse(),true);renderWorkflow();renderResults();renderTechnical();
     for(const d of document.querySelectorAll('details[data-key]'))d.open=opened.includes(d.dataset.key);
     if(focused&&document.activeElement===document.body&&$(focused))$(focused).focus({preventScroll:true});
     $('freshness').textContent=`${S.data?.snapshot?'Saved snapshot · source time':S.data?.demo?'Synthetic demo · example time':'Read-only · refreshed'} ${time(S.data?.generated_at)}${S.data?.queue?.enabled&&!S.data?.snapshot?` · AMD ${S.data.queue.stale?'last observation':'connected'}`:''}`;
   }
   function showView(view) {
-    if(!['graph','overview','workflow','profiler','results'].includes(view))view='graph';S.view=view;
-    for(const id of ['graph','overview','workflow','profiler','results'])$(id).hidden=id!==view;
-    const index=['graph','overview','workflow','profiler','results'].indexOf(view);$('navigation').setAttribute('active-tab-index',String(index));if(customElements.get('p-tabs-bar'))$('navigation').activeTabIndex=index;
+    if(!['graph','overview','workflow','profiler','results','submission','archive'].includes(view))view='graph';S.view=view;
+    for(const id of ['graph','overview','workflow','profiler','results','submission','archive'])$(id).hidden=id!==view;
+    const index=['graph','overview','workflow','profiler','results','submission','archive'].indexOf(view);$('navigation').setAttribute('active-tab-index',String(index));if(customElements.get('p-tabs-bar'))$('navigation').activeTabIndex=index;
     for(const button of document.querySelectorAll('[data-view]'))button.setAttribute('aria-selected',String(button.dataset.view===view));
     document.body.classList.toggle('showing-graph',view==='graph');
     if(view==='graph'){requestAnimationFrame(drawProgressLines);requestAnimationFrame(drawTopologyLines);}
@@ -965,7 +966,7 @@ if(typeof module!=='undefined')module.exports.SessionGraph=SessionGraph;
   $('campaign').addEventListener('change',e=>{S.campaign=e.target.value;S.selected=null;render();});
   document.querySelector('.brand').addEventListener('click',e=>{e.preventDefault();showView('graph');window.scrollTo({top:0,behavior:'smooth'});});
   for(const b of document.querySelectorAll('[data-view]'))b.addEventListener('click',()=>showView(b.dataset.view));
-  $('navigation').addEventListener('update',e=>{if(e.target===$('navigation'))showView(['graph','overview','workflow','profiler','results'][e.detail.activeTabIndex]);});
+  $('navigation').addEventListener('update',e=>{if(e.target===$('navigation'))showView(['graph','overview','workflow','profiler','results','submission','archive'][e.detail.activeTabIndex]);});
   for(const a of document.querySelectorAll('p-accordion'))a.addEventListener('update',e=>{if(e.target===a)a.open=e.detail.open;});
   $('show-workflow').addEventListener('click',()=>showView('workflow'));$('show-results').addEventListener('click',()=>showView('results'));
   $('result-filter').addEventListener('change',e=>{S.filter=e.target.value;renderResults();});
