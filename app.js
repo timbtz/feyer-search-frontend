@@ -972,5 +972,5 @@ if(typeof module!=='undefined')module.exports.SessionGraph=SessionGraph;
   $('result-filter').addEventListener('change',e=>{S.filter=e.target.value;renderResults();});
   $('technical-toggle').addEventListener('click',()=>{$('technical').hidden=!$('technical').hidden;$('technical-toggle').textContent=$('technical').hidden?'Technical details':'Hide technical details';if(!$('technical').hidden)$('technical').scrollIntoView({behavior:'smooth'});});
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh();});
-  showView(location.hash.slice(1));refresh();setInterval(()=>{if(!document.hidden)refresh();},5000);
+  showView(location.hash.slice(1)||'submission');refresh();setInterval(()=>{if(!document.hidden)refresh();},5000);
 })();

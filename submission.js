@@ -25,12 +25,24 @@ const SubmissionReport = (() => {
     if (data?.validation?.passed === false) return 'Validation failed';
     return 'Recorded evidence';
   }
+  function benchmarkRuns(candidate) {
+    return list(candidate?.artifacts).filter(a => a.data?.source?.commit === candidate.sha &&
+      a.data.source.modified === false && numeric(a.data?.timing_seconds?.end_to_end) &&
+      list(a.data.phases).length).map(a => {
+        const logPath = a.path.endsWith('/report.json') ? a.path.replace(/report\.json$/, 'stdout.log') : a.path.replace(/\.json$/, '/stdout.log');
+        return {artifact:a, report:a.data, log:list(candidate.artifacts).find(x=>x.path===logPath),
+          label:a.path.replace(/^.*\/fastest\//,'')};
+      });
+  }
+  function defaultCandidate(dossier) {
+    return list(dossier?.candidates).find(c=>c.sha===dossier?.selected_sha)?.sha || list(dossier?.candidates)[0]?.sha;
+  }
   function filteredJobs(data, query) {
     const q = query.trim().toLowerCase();
     return list(data?.jobs).filter(r => !q || [r.id,r.sha,r.agent,r.branch,r.direction,r.hypothesis,r.status,r.profile,r.official_check,r.strict_check].join(' ').toLowerCase().includes(q))
       .sort((a,b)=>(b.updated_at||b.created_at||0)-(a.updated_at||a.created_at||0));
   }
-  if (typeof document === 'undefined') return {transferPairs,evidenceStatus,filteredJobs};
+  if (typeof document === 'undefined') return {transferPairs,evidenceStatus,filteredJobs,benchmarkRuns,defaultCandidate};
   const el = (tag, cls, text) => {const node=document.createElement(tag);if(cls)node.className=cls;if(text!==undefined)node.textContent=String(text);return node;};
   const $ = id => document.getElementById(id);
   const link = (text,url) => {const a=el('a','',text);a.href=url;a.target='_blank';a.rel='noopener noreferrer';return a;};
@@ -42,7 +54,7 @@ const SubmissionReport = (() => {
     const dossier=state?.submission, candidates=list(dossier?.candidates);
     const select=$('submission-select');
     if(!select)return;
-    if(!candidates.some(c=>c.sha===selected))selected=dossier?.selected_sha||candidates[0]?.sha;
+    if(!candidates.some(c=>c.sha===selected))selected=defaultCandidate(dossier);
     const optionsKey=candidates.map(c=>c.sha+c.title).join();
     if(select.dataset.signature!==optionsKey){select.replaceChildren();for(const c of candidates){const option=el('option','',`${c.sha.slice(0,8)} · ${c.title}`);option.value=c.sha;select.append(option);}select.dataset.signature=optionsKey;}
     select.value=selected||'';
@@ -58,6 +70,19 @@ const SubmissionReport = (() => {
     const pairs=transferPairs(c);
     if(pairs.length){table(target,['Setup','Reference first run','Candidate first run','Observed decrease','Official check','Strict arrays'],pairs.map(p=>[p.setup,seconds(p.reference?.total_seconds),seconds(p.run.total_seconds),seconds(p.saved),p.run.official?.passed===true?'Passed':p.run.official?.passed===false?'Failed':'Unknown',p.comparison?.passed===true?'Passed':p.comparison?.passed===false?'Needs review':'Unknown']));target.append(el('p','meta-line',pairs[0].scope));target.append(el('p','meta-line','One fresh-process pair per setup in this table. Warm repetitions are separate. These support receipts do not establish queue promotion or isolated savings for individual code changes.'));}
     else target.append(el('p','muted','No exact-candidate official transfer receipt recorded. See archived checks below.'));
+    const runs=benchmarkRuns(c);
+    target.append(el('h3','','Detailed benchmark runs and logs'),el('p','muted','Each row is a separate fresh-process report for this exact revision. Expand it for all first-run phases, warm repetitions, validation and the associated stdout log. Diagnostic and failed-launch logs remain in the audit archive below.'));
+    if(runs.length)table(target,['Recorded run','First run','Trace / lower / compile','Warm median','Log'],runs.map(r=>[r.label,seconds(r.report.timing_seconds.end_to_end),seconds(r.report.timing_seconds.trace_lower_and_compile),seconds(r.report.timing_seconds.runtime_median),r.log?(r.log.truncated===false?'Complete retained log':'Retained log excerpt'):'Not retained']));
+    else target.append(el('p','muted','No detailed benchmark reports retained for this revision.'));
+    for(const r of runs){
+      const d=details(target,`${r.label} · ${seconds(r.report.timing_seconds.end_to_end)} first run · phases and log`,`benchmark-${c.sha}-${r.artifact.path}`);
+      d.append(el('p','meta-line',`Source ${r.report.source.commit} · measured ${r.report.measured_at_utc||'time not recorded'} · ${r.report.benchmark}`));
+      table(d,['First-run phase','Seconds'],r.report.phases.map(p=>[p.name||p.key,seconds(p.seconds)]));
+      table(d,['Warm repetition','Seconds'],list(r.report.timing_seconds.runtime_samples).map((t,i)=>[i+1,seconds(t)]));
+      if(r.log){d.append(el('h4','',r.log.truncated===false?'Complete retained stdout log':'Retained stdout excerpt'),el('pre','evidence-json',r.log.data));}
+      else d.append(el('p','meta-line','No matching stdout artifact was retained.'));
+      raw(d,'Validation, environment and complete timing report',r.report,`benchmark-report-${c.sha}-${r.artifact.path}`);
+    }
     target.append(el('h3','','What changed in the implementation'),el('p','muted','Each explanation links to exact source lines at this revision. Timing is measured for whole candidates and benchmark phases; individual lines have no measured speedup attribution.'));
     const concepts=el('div','dossier-concepts');
     for(const [i,concept] of list(c.concepts).entries()){
@@ -82,7 +107,7 @@ const SubmissionReport = (() => {
     }
     target.append(el('h3','','Audits, phase timings and retained logs'),el('p','muted','Artifacts keep their recorded verdicts, tolerance policies and scope. File observation time is not a new measurement. Association without an embedded SHA is explicitly labelled.'));
     for(const [i,a] of list(c.artifacts).entries()){
-      const d=details(target,`${a.path.split('/').slice(-2).join('/')} · ${typeof a.data==='string'?'Log excerpt':evidenceStatus(a.data)}`,`artifact-${c.sha}-${a.path}`);
+      const d=details(target,`${a.path.replace(/^.*\/fastest\//,'')} · ${typeof a.data==='string'?(a.truncated===false?'Complete retained log':'Log excerpt'):evidenceStatus(a.data)}`,`artifact-${c.sha}-${a.path}`);
       d.append(el('p','meta-line',`${a.path} · ${a.identity_status.replaceAll('_',' ')} · observed ${new Date(a.observed_at*1000).toLocaleString()}`));
       if(a.data?.scope||a.data?.timing_scope)d.append(el('p','',a.data.scope||a.data.timing_scope));
       if(list(a.data?.phases).length)table(d,['Phase','Seconds'],a.data.phases.map(p=>[p.name||p.key,seconds(p.seconds)]));
@@ -106,6 +131,6 @@ const SubmissionReport = (() => {
   }
   let initialized=false;
   function render(data){state=data;if(!initialized){$('submission-select')?.addEventListener('change',e=>{selected=e.target.value;signature='';renderCandidate();});$('archive-query')?.addEventListener('input',()=>{jobLimit=30;renderJobs();});$('archive-more')?.addEventListener('click',()=>{jobLimit+=30;renderJobs();});initialized=true;}renderCandidate();renderJobs();}
-  return {render,transferPairs,evidenceStatus,filteredJobs};
+  return {render,transferPairs,evidenceStatus,filteredJobs,benchmarkRuns,defaultCandidate};
 })();
 if(typeof module!=='undefined')module.exports=SubmissionReport;

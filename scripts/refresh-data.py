@@ -57,6 +57,7 @@ def main():
     manifest={'captured_at_utc':data['snapshot_export']['captured_at_utc'],'generated_at':data.get('generated_at'),
         'sha256':hashlib.sha256(encoded).hexdigest(),'bytes':len(encoded),'jobs':len(data.get('jobs',[])),
         'profiles':len(data.get('profiler_reports',[])),'candidates':[c['sha'] for c in data['submission']['candidates']],
+        'selected_sha':data['submission'].get('selected_sha'),
         'selection_status':data['submission'].get('selection_status')}
     args.output.with_name('manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
     print(json.dumps(manifest))
