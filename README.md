@@ -2,7 +2,7 @@
 
 **The graph behind the experiments.** Follow ideas through agent sessions, exact Git revisions, benchmark runs, and recorded decisions.
 
-[**Combined project ↗**](https://github.com/timbtz/feyer-search-lab#readme) · [**Final presentation ↗**](https://github.com/timbtz/feyer-search-lab/blob/main/presentation/faster-answers.pdf) · [**Feyer’s challenge ↗**](https://github.com/timbtz/feyer-search-lab/blob/main/challenge.pdf)
+[**Combined project ↗**](https://github.com/timbtz/feyer-search-lab#readme) · [**Final presentation ↗**](https://github.com/timbtz/feyer-search-lab/blob/main/presentation/faster-answers.pdf) · [**Feyer’s introduction ↗**](https://github.com/timbtz/feyer-search-lab/blob/main/presentation/feyer-challenge.pdf)
 
 [![Recorded agent sessions, numerical searches, and evaluation evidence](https://raw.githubusercontent.com/timbtz/feyer-search-lab/main/presentation/screenshots/search-map.png)](https://github.com/timbtz/feyer-search-lab/blob/main/docs/ARCHITECTURE.md)
 
