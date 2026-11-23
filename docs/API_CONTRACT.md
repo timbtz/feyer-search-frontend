@@ -27,7 +27,7 @@ Metrics are finite numbers in seconds except `peak_rss_bytes`. Missing metrics r
 
 Scientific parent references are scoped to the campaign. Multiple parents form a combination. Git SHA equality, display order, the same lane, or the same model name does not establish ancestry. The renderer rejects cyclic edges with a visible notice rather than looping or silently accepting an invalid DAG.
 
-The frontend uses text nodes for evidence strings, not HTML. The API producer must sanitize sensitive keys and bounded logs before returning JSON. The local proxy does not independently redact a live upstream response; supply only the existing sanitized observatory API or a reviewed export. Never commit production snapshots, session transcripts, API keys, or SSH material to this repository.
+The frontend uses text nodes for evidence strings, not HTML. The API producer must sanitize sensitive keys and bounded logs before returning JSON. The local proxy does not independently redact a live upstream response; supply only the existing sanitized observatory API or a reviewed export. Keep incidental production exports, session transcripts, API keys, and SSH material out of this repository. The previously authorized sanitized `data/latest.json` and its manifest are an explicit exception for the published historical snapshot; they do not authorize publishing raw exports.
 
 No POST, submission, cancellation, assignment, or credential-management endpoints are part of this frontend contract.
 

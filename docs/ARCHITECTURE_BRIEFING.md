@@ -1,5 +1,7 @@
 # Feyer architecture and collaboration briefing
 
+> Start with the [combined project architecture](https://github.com/timbtz/feyer-search-lab/blob/main/docs/ARCHITECTURE.md) and [frontend overview](../README.md). This detailed guide retains historical deployment context; host placement and capacity are not live status.
+
 **Working snapshot dated 21 November 2026. Subject to change, especially the AMD instance, Hetzner VPS, agent launch paths, service configuration, and location of the coordinator.** This describes the checked-in implementation and recorded deployment notes, not a fresh assertion that every described service is currently running. Treat source revisions, timestamps, and receipts as evidence; recheck deployment configuration before operational changes.
 
 This briefing is for a colleague developing the frontend or integration alongside Tim without access to Tim's Hetzner VPS. You can build and test the entire frontend using the included synthetic fixture or a sanitized observatory snapshot. VPS access is needed for host administration and live agent execution, not for frontend development.

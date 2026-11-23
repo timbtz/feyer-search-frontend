@@ -1,72 +1,98 @@
-## Submission view and included experiment data
+# Faster Answers · Search Observatory
 
-The repository includes `data/latest.json` and its SHA-256/count manifest at `data/manifest.json`, explicitly authorized for this frontend update. It contains sanitized experiment observations, bounded evaluator logs, transfer audits, and exact source diffs for the submission candidates. Raw agent conversations and credentials are excluded. The snapshot is a dated observation, not a live connection. The selected submission focus is `53f38d342c3228c052785e8c9d63b6ce9c832dd1`, the approximately one-second host/sparse solution, as requested. Selection does not override the recorded validation results.
+**The read-only frontend for the Feyer Search Lab: from a research idea to an exact revision and measured evidence.**
 
-Run `npm start` and open http://localhost:8770 to view the included data. The default landing view is **Submission**, with the one-second candidate selected. Its detailed benchmark section includes the original Grid/aLIGO runs and four later fresh-process repetitions, all phase timings, warm samples, and matching stdout logs. The audit archive also retains the failed initial repetition launches and the newer gradient, precision, and independent-reference diagnostics. **Submission** explains each optimization with exact source line links and baseline diffs. **Run archive** searches all captured evaluator runs. Candidate timing comparisons retain their measurement scope and failures.
+[Combined project overview](https://github.com/timbtz/feyer-search-lab#readme) · [Lab repository](https://github.com/timbtz/feyer-search-lab) · [Final presentation (PDF)](https://github.com/timbtz/feyer-search-lab/blob/main/presentation/faster-answers.pdf) · [Challenge (PDF)](https://github.com/timbtz/feyer-search-lab/blob/main/challenge.pdf)
 
-For live data: `python3 serve.py --api-url http://127.0.0.1:8765`. The observatory must export the submission dossier. To refresh the committed data: `npm run refresh:data`. After committing source edits, use `npm run push:updated -- -u origin HEAD`: this refreshes the snapshot, commits its two data files, and pushes the current branch. A failed refresh stops the push. Ordinary `git push` does not refresh data automatically.
+[![The experiment loop from the final presentation](story-assets/08-agent-loop.png)](https://github.com/timbtz/feyer-search-lab/blob/main/presentation/faster-answers.pdf#page=8)
 
-Snapshot data is deliberately tracked under `data/`; incidental exports, private transcripts and credentials remain excluded. Check `data/manifest.json` for capture time, run counts, candidate identities and the data hash.
+The team optimized Differometor, an optical simulator, and built a Git-traceable operating loop to coordinate experiments. The final pitch reports a journey from 35.8 s to 0.66 s per complete first evaluation. The [results guide](https://github.com/timbtz/feyer-search-lab/blob/main/docs/RESULTS.md) separates those presentation milestones from exact lab candidates, validation results and measurement scopes.
 
-# Feyer search frontend
+## One project, two repositories
 
-A read-only, graph-first view of the Feyer optimization search. Research and LLM runs connect to reviewed topology spaces, small-parameter searches, candidate ancestry, and evaluation evidence. The map lays itself out; it is not a drag-and-drop workflow editor.
+| Repository | Responsibility |
+| --- | --- |
+| **[feyer-search-lab](https://github.com/timbtz/feyer-search-lab)** | Operates the search: simulator, owned agent worktrees, exact Git revisions, task ledger, evaluator queue, validation, profiling and feedback |
+| **feyer-search-frontend** — this repo | Explains the search: presentation, graph, candidate ancestry, exact-source dossiers, phase timings and run history |
 
-See [the complete three-instance workflow](docs/SEARCH_WORKFLOW.md) and its [architecture diagram](docs/images/search-architecture.svg). The shared team ledger maps research, single-successor refinement, stalled branches, multi-parent combinations, and exact-SHA confirmation.
+The lab is the operating system; this frontend is its observatory. GitHub holds source and published evidence. Controllers and evaluator workers run the experiments. The browser reads observations and never launches agents, submits jobs, or changes results.
 
-## Run without infrastructure access
+## Run locally
 
-Requires Python 3.9+. No npm install, VPS login, AMD account, or model credentials are needed to view the bundled synthetic example.
+Python 3.9+ is sufficient; generated design-system assets are included. No model or evaluator account is needed.
 
 ```bash
 git clone https://github.com/timbtz/feyer-search-frontend.git
 cd feyer-search-frontend
+python3 serve.py
+```
+
+Open <http://localhost:8770>. The default **Submission** view preserves the selected approximately one-second host/sparse candidate, `53f38d342c3228c052785e8c9d63b6ce9c832dd1`. Selection does not override recorded numerical findings. Open <http://localhost:8770/#story> for **Challenge & solution** and the final-pitch visuals.
+
+The included `data/latest.json` is a **dated, sanitized snapshot**, not a live connection. Its [manifest](data/manifest.json) records capture time, counts, candidate identities and the SHA-256 digest. This previously authorized export includes exact source differences, bounded evaluation logs and diagnostics; private agent conversations and credentials are excluded.
+
+For an explicitly synthetic demo:
+
+```bash
 python3 serve.py --demo
 ```
 
-Open http://localhost:8770. A visible banner identifies the synthetic data. Sample timings are not research results.
+Synthetic timings remain visibly labelled and are never research results.
 
-## Connect recorded or live evidence
+## Find your way around
 
-To use a sanitized snapshot supplied by the coordinator, keep it outside version control:
+| View | What it answers |
+| --- | --- |
+| **Challenge & solution** | What was the challenge, how did the solution reduce time, and how do both repos fit together? |
+| **Search map** | Which sessions, candidates, numerical searches and decisions are recorded? |
+| **Overview** | What do the latest available observations say? |
+| **Architecture** | How do proposal, evaluation, refinement, combination and confirmation connect? |
+| **Timing profile** | Where did an exact job spend its first-run time? |
+| **Results** | Which recorded candidates passed, and what comparisons are supported? |
+| **Robustness** | What setup-generalization and JAX-interface diagnostics were recorded? |
+| **Submission** | What changed in the selected source revision, and what evidence supports it? |
+| **Run archive** | Where are individual jobs, repeated runs, failures, checks and retained logs? |
+
+The original slide images are shipped locally. PDF links and the combined architecture guide point to the lab repository.
+
+## Read the graph
+
+**Topology map** groups recorded agent sessions and numerical menus. Expand a session to inspect its candidate revisions, then each screen/full job. Multiple sessions from the same agent remain distinct; ambiguous ownership stays unassigned. Disable **Group agent sessions** for individual candidates.
+
+**Run cards** show a branch’s measured history, decisions and feedback. **Exact evidence DAG** shows declared scientific parents, combinations and optional evaluation nodes. Select a node to trace connections; use search, zoom and fit controls to navigate.
+
+- Candidate ancestry uses explicit recorded parents, including every combination input.
+- Grouping and lane membership organize the view without asserting ancestry.
+- Operational feedback is a separate overlay; a group-level connection does not prove feedback reached a session.
+- Repeated jobs remain attached to the exact SHA. Process completion, correctness, and improvement are separate states.
+- Missing data is unknown. Comparisons retain instance, validation cohort and timing regime; the UI does not pool incompatible hardware results.
+
+The graph represents research provenance and execution evidence, not the simulator’s internal tensor graph. [Combined architecture](https://github.com/timbtz/feyer-search-lab/blob/main/docs/ARCHITECTURE.md) explains the system; the [API contract](docs/API_CONTRACT.md) defines its data.
+
+## Connect to live lab observations
+
+Start the lab observatory from a checkout containing the relevant local `.lab` records:
 
 ```bash
-mkdir -p .local
-# Save the supplied /api/state JSON export as .local/state.json.
-python3 serve.py --snapshot .local/state.json
+# In feyer-search-lab:
+python3 -m lab.live_dashboard --repo . --port 8765
 ```
 
-For live updates from an existing observatory:
+Then run this frontend:
 
 ```bash
 python3 serve.py --api-url http://127.0.0.1:8765
 ```
 
-The server proxies only `GET /api/state`; it does not forward credentials, launch agents, or submit evaluations. The upstream must already be reachable. The experiment repository's observatory may aggregate local coordinator records with AMD queue observations; an AMD checkout alone is not a replacement for that aggregation.
+The browser refreshes every five seconds while visible. Both servers bind to localhost; only `GET /api/state` is proxied. If the source becomes unavailable, the last successful view remains visible with a warning. A source timestamp does not prove that a worker is still active. Publishing this repository does not deploy a hosted dashboard or start an evaluator.
 
-The browser refreshes every five seconds. An unavailable backend leaves the last successful view visible with an explicit connection warning. This frontend is a local application; publishing this repository does not deploy a hosted dashboard.
+For another reviewed local snapshot:
 
-## Follow the search
+```bash
+python3 serve.py --snapshot .local/state.json
+```
 
-The main **Search progression** view shows a baseline widening into independent research directions, compact candidate histories, bounded numerical refinement, stopping, combination, and exact confirmation. Select a direction or marker for receipts, use **Focus map** for the canvas alone, and open **Architecture** for the algorithm and three-instance diagram. The first three recent directions are shown initially; all remain available.
-
-Dashed workflow lines describe intended progression. Candidate markers are chronological membership in an explicitly recorded branch; they are not invented parent edges. Latest full measurements remain single observations. Records without branch metadata remain accessible separately.
-
-## Inspect the exact evidence DAG
-
-Switch to **Exact evidence DAG** for explicit scientific ancestry and these controls:
-
-- **Team workflow** maps the GitHub task ledger from top to bottom. **Campaign evidence** shows legacy and finite-search campaigns; **Selected search round** focuses the campaign selector.
-- **Earlier experiments** includes historical agent results by default; uncheck it to focus on campaign records. **Evaluation runs** adds individual screen/full requests, including repeats.
-- Select a node to trace recorded ancestors and descendants, inspect parameters and measurements, or follow connected evidence.
-- Scroll, zoom, expand the workspace, or fit the graph. Search models, ideas, commits, and IDs; press Enter to focus a match.
-- Solid edges represent recorded dependencies. Dashed edges indicate grouping or lane membership. A research proposal is never presented as a validated improvement.
-
-The graph describes the recorded search and its implementation choices. It does not infer an internal tensor/solver computation graph or an unrecorded relationship between a worker and a candidate.
-
-## Timing profile
-
-The Timing profile tab reads optional versioned profiler reports by exact job/commit and shows where first-run time is spent. It preserves separate warm timings, wall time, eligibility, instance/cohort, and source freshness. A missing export is unavailable, not a zero-cost profile. The collector and any deep diagnostics belong to the experiment repository; the frontend launches neither.
+Keep incidental exports in ignored `.local/`. The tracked `data/` snapshot is an explicit publication exception, not a reason to commit new private exports. `npm run refresh:data` refreshes the approved snapshot from the configured source; inspect its changes before publishing. `npm run push:updated -- -u origin HEAD` refreshes and commits the data files before pushing and stops if refresh fails. Ordinary `git push` does not refresh data.
 
 ## Develop and verify
 
@@ -76,31 +102,19 @@ npm test
 python3 -m unittest discover -s tests -p 'test_*.py'
 ```
 
-The app uses plain JavaScript, HTML, CSS, and the Porsche Design System v4, pinned to `4.10.1`. Generated design-system assets are committed; the official loader obtains component chunks and fonts from Porsche's CDN. Native fallback styling remains usable without that CDN. To regenerate assets:
+The app uses plain JavaScript, HTML, CSS, and Porsche Design System v4 pinned to `4.10.1`. Its generated assets are committed. Component chunks and fonts load from Porsche’s CDN; native fallback styling keeps the content and navigation usable offline. Regenerate intentionally with `npm ci --ignore-scripts` and `npm run build:pds`.
 
-```bash
-npm ci --ignore-scripts
-npm run build:pds
-```
+| Path | Responsibility |
+| --- | --- |
+| `index.html`, `style.css` | Project story, view structure and responsive presentation |
+| `app.js` | Pure graph models, evidence transformations, layout and browser UI |
+| `submission.js` | Exact source dossiers and searchable evaluation archive |
+| `serve.py` | Local read-only snapshot/demo/proxy server |
+| `story-assets/` | Original final-presentation slide exports |
+| `fixtures/` | Explicitly synthetic example data |
+| `tests/` | Graph, evidence-integrity, submission and server checks |
+| `docs/` | Consumer contract, workflow and integration background |
 
-`app.js` contains the pure `SearchDAG` graph model/layout and the browser UI. Node tests cover lineage, combination parents, independent campaign IDs, evidence states, and layout. `serve.py` supplies a small local demo/snapshot/proxy server. `fixtures/demo-state.json` is synthetic and suitable for tests and screenshots.
+Read [ARCHITECTURE_BRIEFING.md](docs/ARCHITECTURE_BRIEFING.md) before changing integration behavior. Host placement, models and capacities in older briefings describe dated deployments. The embedded copy in the lab’s `lab/dashboard/` is synchronized deliberately; it is not an automatic mirror. Preserve each repo’s independent graph work when updating shared presentation assets.
 
-Read [the architecture briefing](docs/ARCHITECTURE_BRIEFING.md) before changing integration behavior, and [the API contract](docs/API_CONTRACT.md) when adapting the data source. Infrastructure and orchestration are evolving; host names, paths, service placement, model choices, and capacities in the briefing are a dated snapshot.
-
-## Repository boundary
-
-This repository owns frontend presentation, graph transformation, sample fixtures, and its local server. [feyer-search-lab](https://github.com/timbtz/feyer-search-lab) owns coordinator logic, scientific code, source provenance, workers, and the evaluator. The initial extraction also exists at `lab/dashboard` there; these are copies, not an automatic synchronization mechanism. Develop frontend changes here and deliberately copy or consume a reviewed revision when updating the embedded dashboard.
-
-Project code retains the originating repository's MIT license. Porsche assets retain their separate [license](PDS-LICENSE.md) and [third-party notice](PDS-OSS-NOTICE). Feyer branding is used; no Porsche logo or wordmark is included.
-
-### Inspect each evaluation
-
-In Search progression, choose a research path and click **Expand decisions & feedback** on a run. Open individual timing rows for compilation and differentiation subphases. Every recorded evaluation has its own card. Use the scientific/execution graph and optional control-feedback overlay to follow source-backed ancestry and feedback consumption. Missing records are labelled; the browser does not manufacture decisions or private prompts.
-
-The default **Topology map** shows compact candidate nodes and declared parent arrows. Click a node label for the side inspector, or expand its profiler feedback and decisions in place. Use **Collapse all** to restore the overview. Topology labels select a focus directly; there is no branch dropdown. Repeats stay inside their exact candidate node, and Run cards remains available as a detailed alternate view.
-
-Each measured candidate is followed by a visible evaluator box containing every exported exact run, official/strict verdicts and total time. Explicit stopping records remain visible. The lowest recorded full observation is separate from campaign-scoped summaries and is not a pooled or repeat-confirmed winner.
-
-### Horizontal session overview
-
-The default map flows left to right and groups work by recorded agent session. Expand a session to inspect candidate revisions, then each screen/full job. Same-agent sessions remain separate; ambiguous branch ownership is left unassigned. Blue rectangles are numerical implementation menus, orange circles are recorded decisions. Coverage (for example 9/9) and controller stopping reason (for example budget exhaustion) stay separate. Turn off **Group agent sessions** for the individual candidate graph. Group-level ancestry links do not establish model-feedback delivery.
+Project code retains the [MIT license](LICENSE). Porsche assets retain their separate [license](PDS-LICENSE.md) and [third-party notice](PDS-OSS-NOTICE); no Porsche logo or wordmark is used.

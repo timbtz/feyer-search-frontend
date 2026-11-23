@@ -1,5 +1,7 @@
 # Three instance search workflow
 
+> Start with the [combined project architecture](https://github.com/timbtz/feyer-search-lab/blob/main/docs/ARCHITECTURE.md) and [frontend overview](../README.md). This detailed guide retains historical deployment context; host placement and capacity are not live status.
+
 This is the intended research process mapped to the implemented GitHub task protocol. Deployment topology remains subject to change. Each participant runs their own Claude or Codex account and submits to their own AMD instance. Qwen, SMAC, and the Hetzner launcher are optional. The shared ledger coordinates humans and their agents; it does not automatically launch a fleet or authorize new compute budgets.
 
 ![Three-instance search architecture and scientific DAG](images/search-architecture.svg)
